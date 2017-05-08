@@ -13,3 +13,5 @@ https://discordpy.readthedocs.io/en/latest/api.html
 
 # How new code changes are to be made.
 Commit to a separate branch and start a Pull Request. Yes, you'll have to learn github. You will thank me later. Promise.
+
+skiiitz
