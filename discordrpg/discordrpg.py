@@ -21,7 +21,7 @@ class DiscordRPG:
         """This repeats hello world to the user"""
 
         #Your code will go here
-        await self.bot.say("Hello World!")
+        await self.bot.say("Bye bye World.")
 
     #this tag below, tells the framework it is a command. pass context is useful, you'll see it used throughout other cogs.
     @commands.command(pass_context = True)
