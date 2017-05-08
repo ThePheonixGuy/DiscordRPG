@@ -15,3 +15,7 @@ https://discordpy.readthedocs.io/en/latest/api.html
 Commit to a separate branch and start a Pull Request. Yes, you'll have to learn github. You will thank me later. Promise.
 
 skiiitz
+
+
+# NPC line
+Bot Amon prefix ,/
