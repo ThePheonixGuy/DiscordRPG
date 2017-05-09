@@ -19,3 +19,6 @@ skiiitz
 
 # NPC line
 Bot Amon prefix ,/
+
+# Map Bot
+Mapbot prefix }{
