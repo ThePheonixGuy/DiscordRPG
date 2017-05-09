@@ -77,7 +77,7 @@ class DiscordRPG:
         if '1' in response.content:
             # Return the character sheet
             embed = await self.player.getCharacterSheet(author)
-            await self.bot.say("", embed = embed)
+            await self.bot.say("  ", embed = embed)
         elif '2' in response.content:
             # Grab url, validate it and save to the players profile in players.json
             await self.bot.say("Please provide me with a url only, to use as an image for your character sheet.") #TODO extract and validate, maybe see if attachements can be pulled.
@@ -96,11 +96,9 @@ class DiscordRPG:
         """Registers and Creates your RPG Character."""
         author = ctx.message.author
         await self.bot.say("Thanks for joining {}! Now, we are going to need some information...".format(author.mention))
-        created = await self.player._createplayer(ctx)
+        await self.player._createplayer(ctx)
 
-        if created is not None:
-            await self.bot.say("Thank you! Your character Sheet will be dm'ed to you.")
-            await self.player.getCharacterSheet(author)
+
         
 
         
@@ -155,10 +153,10 @@ class Player:
         hometownname = ctx.message.server.name
         completion = "yes" # TODO. retrieve requisite info. add it to dictionary and pass to _createplayer method.
 
-        embed = discord.Embed(title = "Pick a Class".format("fromjson charname"), description = "Let's start off by finding what class your character is.", colour =0x0061fd)
+        embed = discord.Embed(title = "Pick a Class".format("fromjson charname"), description = "Let's start off by finding what class your character is.", colour =0xff0000)
         embed.add_field(name='Class', value = "Choose from the following Classes:", inline = False)
         embed.add_field(name ='Warrior', value = 'The Melee Class. Specialising in close quarters combat, the warrior is lethal with a selecton of weapons.\nType `1` to select this class.', inline = False)
-        embed.add_field(name ='Rogue', value = 'Specialising in ranged combat and steathly, the Rogue is Death from a Distance, with a touch of magic to make life easier\nType `2` to select this class.', inline = False)
+        embed.add_field(name ='Rogue', value = 'Specialising in ranged combat and steath, the Rogue is Death from a Distance, with a touch of magic to make life easier\nType `2` to select this class.', inline = False)
         embed.add_field(name ='Sorcerer', value = "Nothing above their power, the arcane arts allow the Sorcerers to bend any element to their will\nType `3` to select this class.", inline = False)
         embed.set_thumbnail(url = 'http://unrealitymag.com/wp-content/uploads/2011/11/torchlight1.jpg')
         await self.bot.say(' ', embed = embed)
@@ -199,8 +197,8 @@ class Player:
             self.playerInventories[author.id] = {}
 
 
-        f = "data/discordrpg/players.json"
-        dataIO.save_json(f, self.playerRoster)
+        self.saveplayers()
+        self.saveinventories()
 
         return completion
 
