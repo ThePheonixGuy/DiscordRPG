@@ -65,8 +65,6 @@ class DiscordRPG:
             await self.bot.say("You have not yet joined the RPG. Please signup using `{}rpg register`".format(ctx.prefix))
             return
 
-        print(current_player)
-
         embed = discord.Embed(title = "Options for {}".format("fromjson charname"), description = "Use the numbers to make a choice.", colour =0xfd0000)
         embed.add_field(name='Options', value = "`1.` Get Character Sheet\n`2.` Change Avatar", inline = False)
         embed.set_author(name='{}'.format(author.name), icon_url = '{}'.format(author.avatar_url))
@@ -76,8 +74,7 @@ class DiscordRPG:
         response = await self.bot.wait_for_message(author = author)
         if '1' in response.content:
             # Return the character sheet
-            embed = await self.player.getCharacterSheet(author)
-            await self.bot.say("  ", embed = embed)
+            await self.player.getCharacterSheet(author)
         elif '2' in response.content:
             # Grab url, validate it and save to the players profile in players.json
             await self.bot.say("Please provide me with a url only, to use as an image for your character sheet.") #TODO extract and validate, maybe see if attachements can be pulled.
@@ -95,13 +92,14 @@ class DiscordRPG:
     async def register(self,ctx):
         """Registers and Creates your RPG Character."""
         author = ctx.message.author
-        await self.bot.say("Thanks for joining {}! Now, we are going to need some information...".format(author.mention))
+
+        player_exists = await self.player.check_player(author.id)
+        if player_exists:
+            await self.bot.say("You are already regsitered. You can use `{}rpg character` to do things.".format(ctx.prefix))
+            return
+        
+        await self.bot.say("Thanks for joining {}! We are going to need some information...".format(author.mention))
         await self.player._createplayer(ctx)
-
-
-        
-
-        
 
 
 class Player:
@@ -130,10 +128,10 @@ class Player:
             return False
 
     async def get_player_records(self, userID):
-        if self.check_player(userID):
+        if await self.check_player(userID):
             return deepcopy(self.playerRoster[userID])
         else:
-            return False
+            return None
 
     async def get_player_invent(self, userID):
         if self.check_player(userID):
@@ -155,12 +153,13 @@ class Player:
 
         embed = discord.Embed(title = "Pick a Class".format("fromjson charname"), description = "Let's start off by finding what class your character is.", colour =0xff0000)
         embed.add_field(name='Class', value = "Choose from the following Classes:", inline = False)
-        embed.add_field(name ='Warrior', value = 'The Melee Class. Specialising in close quarters combat, the warrior is lethal with a selecton of weapons.\nType `1` to select this class.', inline = False)
-        embed.add_field(name ='Rogue', value = 'Specialising in ranged combat and steath, the Rogue is Death from a Distance, with a touch of magic to make life easier\nType `2` to select this class.', inline = False)
-        embed.add_field(name ='Sorcerer', value = "Nothing above their power, the arcane arts allow the Sorcerers to bend any element to their will\nType `3` to select this class.", inline = False)
+        embed.add_field(name ='Warrior', value = 'The Melee Class. Specialising in close quarters combat, the warrior is lethal with a selecton of weapons.\n*Type `1` to select this class.*', inline = False)
+        embed.add_field(name ='Rogue', value = 'Specialising in ranged combat and steath, the Rogue is Death from a Distance, with a touch of magic to make life easier\n*Type `2` to select this class.*', inline = False)
+        embed.add_field(name ='Sorcerer', value = "Nothing above their power, the arcane arts allow the Sorcerers to bend any element to their will\n*Type `3` to select this class.*", inline = False)
         embed.set_thumbnail(url = 'http://unrealitymag.com/wp-content/uploads/2011/11/torchlight1.jpg')
         await self.bot.say(' ', embed = embed)
         raceChoice = await self.bot.wait_for_message(author = author)
+
         if '1' in raceChoice.content:
             await self.bot.say("Awesome! Now, What is this Warrior's name?")
             race = "Warrior"
@@ -170,10 +169,13 @@ class Player:
         elif '3' in raceChoice.content:
             await self.bot.say("Awesome! Now, What is this Sorcerers's name?")
             race = "Sorcerer"
-
         charname = await self.bot.wait_for_message(author = author)
         charname = charname.content 
-        await self.bot.say("Great, welcome to {}, {}".format("*player.town*", charname))
+
+        await self.bot.say("Please provide a short backstory about yourself, {}".format(charname))
+        bio = await self.bot.wait_for_message(author = author)
+
+        await self.bot.say("Great, welcome to {}, {}".format("*fromjson settings player.town*", charname))
 
         newplayer['User'] = author.name
         newplayer['HomeTownName'] = hometownname
@@ -181,13 +183,23 @@ class Player:
         newplayer['CharName'] = charname
         newplayer['Race'] = race
         newplayer['Level'] = 1
-        newplayer['BaseStats'] = {'HP': 50, 'Mana': 10, 'Stamina': 30}
         newplayer['Gold'] = 100
         newplayer['CurrLocX'] = 0
         newplayer['CurrLocY'] = 0
+        newplayer['Bio'] = bio
+        if 'W' in race:
+            newplayer['BaseStats'] = {'HP': 50, 'Mana': 10, 'Stamina': 30}
+        elif 'R' in race:
+            newplayer['BaseStats'] = {'HP': 40, 'Mana': 15, 'Stamina': 20}
+        elif 'S' in race:
+            newplayer['BaseStats'] = {'HP': 35, 'Mana': 30, 'Stamina': 15}
+        else:
+            await self.bot.say("Sorry... there seems to be an issue with your class. Please try again.")
+            return
+        
 
         if await self.check_player(author.id):
-            self.playerRoster[author.id] = newplayer
+            self.playerRoster[author.id] = newplayers
         else:
             self.playerRoster[author.id] = {}
             self.playerRoster[author.id] = newplayer
@@ -196,6 +208,7 @@ class Player:
         if not has_invent:
             self.playerInventories[author.id] = {}
 
+        await self.getCharacterSheet(author)
 
         self.saveplayers()
         self.saveinventories()
@@ -205,9 +218,10 @@ class Player:
     async def getCharacterSheet(self, user):
         author = user
 
-        #TODO DEEPCOPY from playerRoster of the specific user.
+        char_profile = await self.get_player_records(user.id)
+        print(char_profile)
 
-        embed = discord.Embed(title= "CharName", description="Currently (location goes here)" , color=0xff0000) #TODO will require a location provider. Part of map Class.
+        embed = discord.Embed(title= "{}".format(char_profile['CharName']), description="will need to be a mapProvider, from passing currloc variables" , color=0xff0000) #TODO will require a location provider. Part of map Class.
         embed.add_field(name='Character Bio', value = "fromjson Hailing from *{}*, *{}* is a {}. {}".format("player.hometown","CharName", "player.race", "player.bio"), inline = False) #TODO replace with vals
         embed.add_field(name='Race', value='fromjson', inline=True)
         embed.add_field(name='Level', value='fromjson', inline=True)
