@@ -16,6 +16,8 @@ Commit to a separate branch and start a Pull Request. Yes, you'll have to learn 
 
 skiiitz
 
+# Interesting
+http://crobi.github.io/rpg-cards/
 
 # NPC line
 Bot Amon prefix ,/
