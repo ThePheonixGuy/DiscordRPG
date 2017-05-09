@@ -16,8 +16,9 @@ Commit to a separate branch and start a Pull Request. Yes, you'll have to learn 
 
 skiiitz
 
-# Interesting
+# Going to be using this to generate Images for Monster details. Will look into making it automated, but for now check it out.
 http://crobi.github.io/rpg-cards/
+http://crobi.github.io/rpg-cards/generator/generate.html
 
 # NPC line
 Bot Amon prefix ,/
