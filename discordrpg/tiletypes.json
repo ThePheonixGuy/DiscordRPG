@@ -61,7 +61,7 @@
 
 	},	
 	"Town" : {
-		"MovementMod" : 0;
+		"MovementMod" : 0,
 		"SpawnRate" : 0,
 		"NPC_Difficulty" : 100,
 		"NPC_Type" : ["Human"]		
