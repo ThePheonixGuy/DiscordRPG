@@ -46,7 +46,7 @@ class DiscordRPG:
         embed.add_field(name='Options', value = "`1.` Get Character Sheet\n`2.` Change Avatar", inline = False)
         await self.bot.say()
 
-    @commands.group(name="character", pass_context=True)
+    @commands.group(name="rpg", pass_context=True)
     async def rpg(self, ctx):
         """General RPG stuff."""
         if ctx.invoked_subcommand is None:
