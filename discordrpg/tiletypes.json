@@ -1,0 +1,14 @@
+{
+	"Grassland" : {
+		"MovementMod" : 1,
+		"SpawnRate" : 1,
+		"NPC_Difficulty" : 1,
+		"NPC_Type" : ["Grass", "Water"]
+	},
+	"Grassland" : {
+		"MovementMod" : 1,
+		"SpawnRate" : 1,
+		"NPC_Difficulty" : 1,
+		"NPC_Type" : ["Grass", "Water"]
+	}
+}
