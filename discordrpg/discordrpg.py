@@ -19,9 +19,9 @@ class DiscordRPG:
 
     def __init__(self, bot):
         self.bot = bot
-        self.player = Player(bot, "data/discordrpg/players.json", "data/discordrpg/inventories.json") #note that the players refered to from here on out will be a collective object of the type Player that handles the player function.
-        # this method of referal will be prefered going forward, unless we move forward to using modules (which we might)
+        self.player = Player(bot, "data/discordrpg/players.json", "data/discordrpg/inventories.json")
         self.monster = Monster(bot, "data/discordrpg/monsters.json")
+        self.map = Map(bot, "data/discordrpg/tiletypes.json", "data/discordrpg/map.json")
         self.settings_path = "data/discordrpg/settings.json"
         self.settings = dataIO.load_json(self.settings_path)  
 
@@ -82,8 +82,7 @@ class DiscordRPG:
     @rpg.command(pass_context=True, no_pm = False)
     async def monsters(self,ctx):
         """Lets you see all current monsters. *Testing command*"""
-        await self.monster.get_all_monsters()
-        await self.bot.say("All monsters. List selector will folow like `{}rpg character` creates".format(ctx.prefix))
+        await self.monster.get_all_monsters(ctx)
 
 
 class Player:
@@ -237,12 +236,49 @@ class  Monster:
         self.bot = bot
         self.npcmonsters = dataIO.load_json(monster_path)
 
-    async def get_all_monsters(self):
-        pass
+    async def get_all_monsters(self, ctx):
+        await self.bot.say(self.npcmonsters)
 
     async def monster_info(self,bot,monsterID):
         pass
 
+class  Map:
+    def __init__(self,bot, tile_path, map_path):
+        self.bot = bot
+        self.fieldmap = dataIO.load_json(map_path)
+        self.tiletypes = dataIO.load_json(tile_path)
+
+    async def map_generator(self, user, loc_x, loc_y):
+        # Takes a co-ordinat x and y. Needs to check if the x value exists in the dict.
+        # the dict is layed out as follows:
+        # row to coloumn basis. One x co-ord, with every Discovered Y co-ord as a value of that x co-ord key.
+        # thus a call to a specific tile location will look like:
+        # self.fieldmap[x_co_ord][y_co_ord]
+
+        # You need to check the passed location co-rds to see if theyre in the dict. Use try except blocks, i will do the x co-ord for you, or use an "if key not in dict" structure.
+        # If it exists, return.
+        # If not, add it to the dict. 
+        # decide a random tile to occur from titletypes.json (will add the import later) and add it to the dict at that location  such that self.fieldmap[x][y] = {tile details} 
+        # ^^this needs to be a function of distance from home town and user lvl, compared to the tile difficulty. remember monster spawning will be automated off this so you dont have to account for it.
+        # Save the decided tile to the dict. Save the dict to a file. Thus the thing will continually generate as new distances are explored. 
+        
+        try:
+            if loc_x  in self.fieldmap:
+                if loc_y in self.fieldmap[loc_x]:
+                    return
+                else:
+                    # code to select a tile goes here
+                    return
+            else:
+                self.fieldmap[loc_x] = {}
+                self.map_generator(user, loc_x, loc_y)
+                return
+        except:
+            await self.bot.say("This error must not appear when the game is published to mainserver.")
+
+    def savemap(self):
+        f = "data/discordrpg/map.json"
+        dataIO.save_json(f, self.fieldmap)
 
 
 
