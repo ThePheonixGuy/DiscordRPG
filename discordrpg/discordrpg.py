@@ -237,10 +237,10 @@ class  Monster:
         self.bot = bot
         self.npcmonsters = dataIO.load_json(monster_path)
 
-    def get_all_monsters(self):
+    async def get_all_monsters(self):
         pass
 
-    def monster_info(self,bot,monsterID):
+    async def monster_info(self,bot,monsterID):
         pass
 
 
