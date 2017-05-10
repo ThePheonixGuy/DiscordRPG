@@ -22,32 +22,8 @@ class DiscordRPG:
         self.player = Player(bot, "data/discordrpg/players.json", "data/discordrpg/inventories.json") #note that the players refered to from here on out will be a collective object of the type Player that handles the player function.
         # this method of referal will be prefered going forward, unless we move forward to using modules (which we might)
         self.monster = Monster(bot, "data/discordrpg/monsters.json")
-
         self.settings_path = "data/discordrpg/settings.json"
-        self.settings = dataIO.load_json(self.settings_path)
-
-    @commands.command(pass_context = True)
-    async def helloworld(self,ctx):
-        """This repeats hello world to the user"""
-
-        #Your code will go here
-        await self.bot.say("Bye bye World.")
-
-    #this tag below, tells the framework it is a command. pass context is useful, you'll see it used throughout other cogs.
-    @commands.command(pass_context = True)
-    async def noticeme(self, ctx): #ctx is the passed context
-        """This tells the user they have been noticed"""
-        author = ctx.message.author
-
-        await self.bot.say("Yes, senpai? What would you like to tell me?")
-
-        userresponse = await self.bot.wait_for_message(author = author)
-        #author check param in this is important. it waits for a response from the user who
-        #initiated the command.
-
-        await self.bot.say("Really... '{}' is all you had to say, {}? Pathetic.".format(userresponse.content, author.mention))
-
-    
+        self.settings = dataIO.load_json(self.settings_path)  
 
     @commands.group(name="rpg", pass_context=True)
     async def rpg(self, ctx):
@@ -102,6 +78,12 @@ class DiscordRPG:
         
         await self.bot.say("Thanks for joining {}! We are going to need some information...".format(author.mention))
         await self.player._createplayer(ctx)
+
+    @rpg.command(pass_context=True, no_pm = False)
+    async def monsters(self,ctx):
+        """Lets you see all current monsters. *Testing command*"""
+        await self.monster.get_all_monsters()
+        await self.bot.say("All monsters. List selector will folow like `{}rpg character` creates".format(ctx.prefix))
 
 
 class Player:
@@ -239,6 +221,7 @@ class Player:
     async def setProfileAvatar(self, userID, url):
         #check it for keyerror. try catch is easier. but the check for a registered profile needs to come before this.
         self.playerRoster[userID]['avatar'] = url
+        self.saveplayers()
 
     def saveplayers(self):
         f = "data/discordrpg/players.json"
@@ -247,6 +230,18 @@ class Player:
     def saveinventories(self):
         f = "data/discordrpg/inventories.json"
         dataIO.save_json(f, self.playerInventories)
+
+
+class  Monster:
+    def __init__(self,bot,monster_path):
+        self.bot = bot
+        self.npcmonsters = dataIO.load_json(monster_path)
+
+    def get_all_monsters(self):
+        pass
+
+    def monster_info(self,bot,monsterID):
+        pass
 
 
 
@@ -288,10 +283,4 @@ def setup(bot):
         bot.add_cog(DiscordRPG(bot))
     else:
         raise RuntimeError("You need to run pip3 install validators")
- 
 
-
-class  Monster:
-    def __init__(self,bot,monster_path):
-        self.bot = bot
-        self.npcmonsters = dataIO.load_json(monster_path)
