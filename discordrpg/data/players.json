@@ -1,0 +1,96 @@
+{
+    "172263030380298241" : {
+        "BaseStats" : {
+            "HP" : 50,
+            "Mana" : 10,
+            "Stamina" : 30
+        },
+        "CharName" : "Relentless",
+        "CurrLocX" : 0,
+        "CurrLocY" : 0,
+        "Gold" : 100,
+        "HomeTownID" : "301474329651052545",
+        "HomeTownName" : "Squabble_Bots",
+        "Level" : 1,
+        "Race" : "Sorcerer",
+        "User" : "Relentless13"
+    },
+    "172263706649034752" : {
+        "BaseStats" : {
+            "HP" : 50,
+            "Mana" : 10,
+            "Stamina" : 30
+        },
+        "CharName" : "Rizen",
+        "CurrLocX" : 0,
+        "CurrLocY" : 0,
+        "Gold" : 100,
+        "HomeTownID" : "301474329651052545",
+        "HomeTownName" : "Squabble_Bots",
+        "Level" : 1,
+        "Race" : "Sorcerer",
+        "User" : "ThePheonixGuy"
+    },
+    "216228896025083906" : {
+        "BaseStats" : {
+            "HP" : 50,
+            "Mana" : 10,
+            "Stamina" : 30
+        },
+        "CharName" : "3",
+        "CurrLocX" : 0,
+        "CurrLocY" : 0,
+        "Gold" : 100,
+        "HomeTownID" : "301474329651052545",
+        "HomeTownName" : "Squabble_Bots",
+        "Level" : 1,
+        "Race" : "",
+        "User" : "PrinceGriffon"
+    },
+    "225964693318008832" : {
+        "BaseStats" : {
+            "HP" : 50,
+            "Mana" : 10,
+            "Stamina" : 30
+        },
+        "CharName" : "Benehiko",
+        "CurrLocX" : 0,
+        "CurrLocY" : 0,
+        "Gold" : 100,
+        "HomeTownID" : "301474329651052545",
+        "HomeTownName" : "Squabble_Bots",
+        "Level" : 1,
+        "Race" : "Rogue",
+        "User" : "Benehiko"
+    },
+    "238384532544290836" : {
+        "BaseStats" : {
+            "HP" : 50,
+            "Mana" : 10,
+            "Stamina" : 30
+        },
+        "CharName" : "Froizar",
+        "CurrLocX" : 0,
+        "CurrLocY" : 0,
+        "Gold" : 100,
+        "HomeTownID" : "301474329651052545",
+        "HomeTownName" : "Squabble_Bots",
+        "Level" : 1,
+        "Race" : "Rogue",
+        "User" : "Demon2468god"
+    },
+    "BaseStats" : {
+        "HP" : 50,
+        "Mana" : 10,
+        "Stamina" : 30
+    },
+    "CharName" : "Rizen",
+    "CurrLocX" : 0,
+    "CurrLocY" : 0,
+    "Gold" : 100,
+    "HomeTownID" : "301474329651052545",
+    "HomeTownName" : "Squabble_Bots",
+    "ID" : "172263706649034752",
+    "Level" : 1,
+    "Race" : "Sorcerer"
+}

@@ -21,6 +21,8 @@ class DiscordRPG:
         self.bot = bot
         self.player = Player(bot, "data/discordrpg/players.json", "data/discordrpg/inventories.json") #note that the players refered to from here on out will be a collective object of the type Player that handles the player function.
         # this method of referal will be prefered going forward, unless we move forward to using modules (which we might)
+        self.monster = Monster(bot, "data/discordrpg/monsters.json")
+
         self.settings_path = "data/discordrpg/settings.json"
         self.settings = dataIO.load_json(self.settings_path)
 
@@ -278,6 +280,7 @@ def check_files():
         dataIO.save_json(f, {})
 
 
+
 def setup(bot):
     check_folders()
     check_files()
@@ -285,4 +288,10 @@ def setup(bot):
         bot.add_cog(DiscordRPG(bot))
     else:
         raise RuntimeError("You need to run pip3 install validators")
-    
+ 
+
+
+class  Monster:
+    def __init__(self,bot,monster_path):
+        self.bot = bot
+        self.npcmonsters = dataIO.load_json(monster_path)

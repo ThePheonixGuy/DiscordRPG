@@ -1,5 +1,5 @@
 {
-    "0001":{
+    "0001" : {
          "Name: ": "Young Red Fox",
          "Level" : 1,
          "NPC_Difficulty:" : 1,
@@ -10,9 +10,9 @@
          "Attack": "bite",
          "M.Attack": 7,
          "Speed": 110,
-         "Attack.Range" : 40,
-     },
-	"0002" :{
+         "Attack.Range" : 40
+    },
+    "0002" : {
          "Name:": "Brown Fox",
          "Level": 1,
          "NPC_Difficulty:" : 1,
@@ -23,9 +23,9 @@
          "Attack": "bite",
          "M.Attack": 7,
          "Speed": 115,
-         "Attack.Range" : 40,
+         "Attack.Range" : 40
     },
-    "0003" :{
+    "0003" : {
         "Name:": "Elder Brown Fox",
         "Level" : 2,
         "NPC_Difficulty:" : 1,
@@ -36,9 +36,9 @@
         "Attack": "bite",
         "M.Attack":9,
         "Speed":115,
-        "Attack.Range" : 40,
+        "Attack.Range" : 40
      },
-     "0004" :{
+     "0004" : {
         "Name:": "Elder Brown Fox",
         "Level" : 2,
         "NPC_Difficulty:" : 1,
@@ -49,20 +49,20 @@
         "Attack": "bite",
         "M.Attack":9,
         "Speed":115,
-        "Attack.Range" : 40,
+        "Attack.Range" : 40
      },
-     "0005" :{
+     "0005" : {
        "Name:" : "Timber Wolf",
        "Level" : 2,
        "NPC_Difficulty:" : 1,
        "Type" : "Normal",
-       "EXP": 85,
+       "EXP" : 85,
        "HP" : 62,
-       "P.Attack":10,
-       "Attack": "bite",
-       "M.Attack" :9,
-       "Speed":120,
-       "Attack.Range" : 40,
+       "P.Attack" : 10,
+       "Attack" : "bite",
+       "M.Attack" : 9,
+       "Speed" : 120,
+       "Attack.Range" : 40
 
     }
 }
