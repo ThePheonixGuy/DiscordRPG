@@ -41,18 +41,13 @@ class DiscordRPG:
         await self.town.set_town_name(ctx,name)
 
     @rpgset.command(pass_context=True) 
-    async def townavatar(self,ctx,):
+    async def townavatar(self,ctx, *, avatarurl):
         """Allows you to set a new Avatar picture for this server's Home Town"""
-        await self.bot.say("Please provide me with a url only, to use as an image for your character sheet.")
         #TODOLATER allow attachment grabbing. its possible, but im lazy
         author = ctx.message.author
         sid = ctx.message.server.id
-        avatarurl = await self.bot.wait_for_message(author = author)
-
         if validators.url(avatarurl.content):
             await self.town.set_town_avatar(sid, avatarurl.content)
-            #TODO do the magic of sending to self.player.setAvatar(author.id,url)
-            #TODO set up avatar saving
         else:
             await self.bot.say("Not a valid URL. Try again.")
 
@@ -125,6 +120,17 @@ class DiscordRPG:
         await self.bot.say("Thanks for joining {}! We are going to need some information...".format(author.mention))
         await self.player._createplayer(ctx)
 
+    @rpg.command(pass_context=True, no_pm = False)
+    async def play(self,ctx):
+        """Runs a session of DiscordRPG"""
+        #from this point onwards, CTX cannot be used for resources like server ID's. 
+        # Needs to be pulled from the existing resources, in the dicts.
+        await self.bot.say("Under construction...")
+
+    @rpg.command(pass_context=True, no_pm = False)
+    async def viewtown(self,ctx):
+        sid = ctx.message.server.id
+        await self.town.get_town_sheet(sid)
 
     @rpg.command(pass_context=True, no_pm = False)
     async def monsters(self,ctx):
@@ -350,6 +356,10 @@ class  Map:
         except:
             await self.bot.say("This error must not appear when the game is published to mainserver.")
 
+    def maptester(self):
+        pass
+
+        
     def savemap(self):
         f = "data/discordrpg/map.json"
         dataIO.save_json(f, self.fieldmap)
@@ -405,7 +415,7 @@ class Town:
             townName = response.content
             await self.bot.say("{}? Alright, if you say so. Gimme a second to get things set up, I'll get back to you.".format(townName))
             newTown['Town_Name'] = townName
-            newTown['Created_At'] = str(datetime.datetime.now())
+            newTown['Created_At'] = datetime.datetime.ctime(datetime.datetime.now())
             newTown['Level'] = 1
             newTown['Avatar'] = "http://orig09.deviantart.net/2440/f/2013/249/7/a/fantasy_rpg_town_by_e_mendoza-d6lb9td.jpg"
             newTown['Buildings'] = {}
@@ -421,7 +431,7 @@ class Town:
         self.savetowns()
 
     async def set_town_avatar(self, townID, url):
-        if check_town(townID):
+        if self.check_town(townID):
             self.known_towns[townID]['Avatar'] = url
             await self.bot.say("Done!")
         else:
@@ -488,7 +498,6 @@ def check_files():
     f = "data/discordrpg/monsters.json"
     if not dataIO.is_valid_json(f):
         raise RuntimeError("Data file monsters.json is either missing from the data folder or corrupt. Please redownload it and place it in your bot's data/discordrpg/ folder")
-
 
 
 def setup(bot):
