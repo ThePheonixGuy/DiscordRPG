@@ -79,18 +79,4 @@
         "Race" : "Rogue",
         "User" : "Demon2468god"
     },
-    "BaseStats" : {
-        "HP" : 50,
-        "Mana" : 10,
-        "Stamina" : 30
-    },
-    "CharName" : "Rizen",
-    "CurrLocX" : 0,
-    "CurrLocY" : 0,
-    "Gold" : 100,
-    "HomeTownID" : "301474329651052545",
-    "HomeTownName" : "Squabble_Bots",
-    "ID" : "172263706649034752",
-    "Level" : 1,
-    "Race" : "Sorcerer"
 }

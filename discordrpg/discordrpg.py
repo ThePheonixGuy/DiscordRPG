@@ -310,6 +310,19 @@ def check_files():
         print("Creating empty towns.json...")
         dataIO.save_json(f, {})
 
+    f = "data/discordrpg/map.json"
+    if not dataIO.is_valid_json(f):
+        print("Creating empty towns.json...")
+        dataIO.save_json(f, {})
+
+    f = "data/discordrpg/tiletypes.json"
+    if not dataIO.is_valid_json(f):
+        raise RuntimeError("Data file tiletypes.json is either missing from the data folder or corrupt. Please redownload it and place it in your bot's data/discordrpg/ folder")
+
+    f = "data/discordrpg/monsters.json"
+    if not dataIO.is_valid_json(f):
+        raise RuntimeError("Data file monsters.json is either missing from the data folder or corrupt. Please redownload it and place it in your bot's data/discordrpg/ folder")
+
 
 
 def setup(bot):
