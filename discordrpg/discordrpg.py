@@ -77,7 +77,7 @@ class DiscordRPG:
     async def signup(self,ctx):
         """Allows an admin or moderator to signup this server into the RPG"""
         author = ctx.message.author
-        await self.bot.say("Hey there, {}. Thanks for signing up your server. Please provide a name for your new town!".format(author.mention))
+        await self.bot.say("Hey there, {}. Thanks for signing up your server. Please provide a name for your new town! This will ne the name of the whole server's town.".format(author.mention))
         response = await self.bot.wait_for_message(author = author)
         townName = response.content
         await self.bot.say("{}? Alright, if you say so. Gimme a second to get things set up, I'll get back to you.".format(townName))
@@ -94,7 +94,7 @@ class DiscordRPG:
         if player_exists:
             current_player = await self.player.get_player_records(author.id)
         else:
-            await self.bot.say("You have not yet joined the RPG. Please signup using `{}rpg register`".format(ctx.prefix))
+            await self.bot.say("You have not yet joined the RPG. Please register using `{}rpg register`".format(ctx.prefix))
             return
 
         embed = discord.Embed(title = "Options for {}".format("fromjson charname"), description = "Use the numbers to make a choice.", colour =0xfd0000)
@@ -199,9 +199,10 @@ class Player:
         hometownid = ctx.message.server.id
         hometownname = ctx.message.server.name
         town_record = await self.town.get_town_records(hometownid)
+        print("New player is registering in {} from server {}".format(town_record['Town_Name'], ctx.message.server.name))
         completion = "yes" # TODO. retrieve requisite info. add it to dictionary and pass to _createplayer method.
 
-        embed = discord.Embed(title = "Pick a Class".format("fromjson charname"), description = "Let's start off by finding what class your character is.", colour =0xff0000)
+        embed = discord.Embed(title = "Pick a Class", description = "Let's start off by finding what class your character is.", colour =0xff0000)
         embed.add_field(name='Class', value = "Choose from the following Classes:", inline = False)
         embed.add_field(name ='Warrior', value = 'The Melee Class. Specialising in close quarters combat, the warrior is lethal with a selecton of weapons.\n*Type `1` to select this class.*', inline = False)
         embed.add_field(name ='Rogue', value = 'Specialising in ranged combat and steath, the Rogue is Death from a Distance, with a touch of magic to make life easier\n*Type `2` to select this class.*', inline = False)
@@ -223,6 +224,7 @@ class Player:
         charname = charname.content 
 
         await self.bot.say("Please provide a short backstory about yourself, {}".format(charname))
+        
         bio = await self.bot.wait_for_message(author = author)
 
         await self.bot.say("Great, welcome to {}, {}".format(town_record['Town_Name'], charname))
@@ -395,20 +397,13 @@ class Town:
 
         town_record = await self.get_town_records(townID)
 
-        embed = discord.Embed(title= "{}".format(town_record['Town_Name']), description="The humble {} was rebuilt from the rubble at {}".format("fromjson","fromjson") , color=0xff0000) #TODO will require a location provider. Part of map Class.
-        embed.add_field(name='Bio', value = "fromjson Hailing from *{}*, *{}* is a {}. {}".format("player.hometown","CharName", "player.race", "player.bio"), inline = False) #TODO replace with vals
-        embed.add_field(name='Race', value='fromjson', inline=True)
-        embed.add_field(name='Level', value='fromjson', inline=True)
-        embed.add_field(name='Health', value='fromjson', inline=True)
-        embed.add_field(name='Mana', value='fromjson', inline=True)
-        embed.add_field(name='Stamina', value='fromjson', inline=True)
-        embed.add_field(name='Gold', value='fromjson', inline=True)
-        embed.set_author(name='{}'.format(author.name), icon_url = '{}'.format(author.avatar_url))
-        embed.set_thumbnail(url = 'https://i.ytimg.com/vi/Pq824AM9ZHQ/maxresdefault.jpg')
+        embed = discord.Embed(title= "{}".format(town_record['Town_Name']), description="The humble {} was rebuilt from the rubble On {}".format(town_record['Town_Name'],town_record['Created_At']) , color=0xff0000) #TODO will require a location provider. Part of map Class.
+        embed.add_field(name='Rebuilt On', value=town_record['Created_At'], inline=True)
+        embed.add_field(name='Level', value=town_record['Level'], inline=True)
+        embed.add_field(name='Current Buildings', value=town_record['Buildings'], inline=False)
+        embed.set_thumbnail(url = town_record['Avatar'])
 
         await self.bot.say(" ", embed = embed)
-
-    
 
     async def create_town(self, ctx, townName):
         newTown = {}
