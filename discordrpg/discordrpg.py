@@ -38,25 +38,15 @@ class DiscordRPG:
         """Allows you to set a name for this server's Home Town"""
         author = ctx.message.author
         sid = ctx.message.server
-        townExists = await self.town.check_town(sid)
-        if not townExists:
-            await self.bot.say("Oops. Your town is still in piles of rubble. Please ask an admin or moderator of this channel to get your town started with `{}rpg signup`".format(ctx.prefix))
-            return
         await self.town.set_town_name(ctx,name)
 
     @rpgset.command(pass_context=True) 
-    async def townavatar(self,ctx, *, name):
-        """Allows you to set a name for this server's Home Town"""
-        author = ctx.message.author
-        sid = ctx.message.server
-        townExists = await self.town.check_town(sid)
-        if not townExists:
-            await self.bot.say("Oops. Your town is still in piles of rubble. Please ask an admin or moderator of this channel to get your town started with `{}rpg signup`".format(ctx.prefix))
-            return
-
+    async def townavatar(self,ctx,):
+        """Allows you to set a new Avatar picture for this server's Home Town"""
         await self.bot.say("Please provide me with a url only, to use as an image for your character sheet.")
         #TODOLATER allow attachment grabbing. its possible, but im lazy
-        
+        author = ctx.message.author
+        sid = ctx.message.server.id
         avatarurl = await self.bot.wait_for_message(author = author)
 
         if validators.url(avatarurl.content):
@@ -76,13 +66,7 @@ class DiscordRPG:
     @checks.admin_or_permissions(manage_server=True)
     async def signup(self,ctx):
         """Allows an admin or moderator to signup this server into the RPG"""
-        author = ctx.message.author
-        await self.bot.say("Hey there, {}. Thanks for signing up your server. Please provide a name for your new town! This will ne the name of the whole server's town.".format(author.mention))
-        response = await self.bot.wait_for_message(author = author)
-        townName = response.content
-        await self.bot.say("{}? Alright, if you say so. Gimme a second to get things set up, I'll get back to you.".format(townName))
-
-        await self.town.create_town(ctx, townName)
+        await self.town.create_town(ctx)
 
     @rpg.command(pass_context=True)
     async def character(self,ctx):
@@ -97,7 +81,7 @@ class DiscordRPG:
             await self.bot.say("You have not yet joined the RPG. Please register using `{}rpg register`".format(ctx.prefix))
             return
 
-        embed = discord.Embed(title = "Options for {}".format("fromjson charname"), description = "Use the numbers to make a choice.", colour =0xfd0000)
+        embed = discord.Embed(title = "Options for {}".format(current_player['CharName']), description = "Use the numbers to make a choice.", colour =0xfd0000)
         embed.add_field(name='Options', value = "`1.` Get Character Sheet\n`2.` Change Avatar\n`3.` Change Bio", inline = False)
         embed.set_author(name='{}'.format(author.name), icon_url = '{}'.format(author.avatar_url))
         embed.set_thumbnail(url = 'https://i.ytimg.com/vi/Pq824AM9ZHQ/maxresdefault.jpg')
@@ -118,7 +102,7 @@ class DiscordRPG:
             else:
                 await self.bot.say("Not a valid URL. Try again.")
         elif '3' in response.content:
-            self.player.setBio(ctx, author.id)
+            await self.player.setBio(ctx, author.id)
         else:
             await self.bot.say("Invalid response. Please try again.")
 
@@ -290,7 +274,7 @@ class Player:
 
     async def setProfileAvatar(self, userID, url):
         #TODO check it for keyerror. use check method.
-        if check_player(userID): 
+        if await self.check_player(userID): 
             self.playerRoster[userID]['Avatar'] = url
             self.saveplayers()
             await self.bot.say("Done!")
@@ -299,7 +283,7 @@ class Player:
 
     async def setBio(self, ctx, userID):
         author = ctx.message.author
-        current_player = self.get_player_records(userID)
+        current_player = await self.get_player_records(userID)
         if current_player == None:
             await self.bot.say("No current records for you, {}. Please use `{}rpg register to enter the game".format(author.mention, ctx.prefix))
             return
@@ -307,11 +291,9 @@ class Player:
         await self.bot.say("Please provide me with a new Bio.")
 
         new_bio = await self.bot.wait_for_message(author = author)
-
         current_player['Bio'] = new_bio.content
-
         self.playerRoster[userID] = current_player
-
+        await self.bot.say("Done!")
         self.saveplayers()
 
     def saveplayers(self):
@@ -382,10 +364,13 @@ class Town:
         try:
             if townID in self.known_towns:
                 return True
+                print(True)
             else:
                 return False
+                print(False)
         except:
             return False
+            print("Excepted False")
 
     async def get_town_records(self, townID):
         if await self.check_town(townID):
@@ -400,17 +385,25 @@ class Town:
         embed = discord.Embed(title= "{}".format(town_record['Town_Name']), description="The humble {} was rebuilt from the rubble On {}".format(town_record['Town_Name'],town_record['Created_At']) , color=0xff0000) #TODO will require a location provider. Part of map Class.
         embed.add_field(name='Rebuilt On', value=town_record['Created_At'], inline=True)
         embed.add_field(name='Level', value=town_record['Level'], inline=True)
+        #TODO list iterator for display purposes.
         embed.add_field(name='Current Buildings', value=town_record['Buildings'], inline=False)
         embed.set_thumbnail(url = town_record['Avatar'])
 
         await self.bot.say(" ", embed = embed)
 
-    async def create_town(self, ctx, townName):
+    async def create_town(self, ctx):
         newTown = {}
         sid = ctx.message.server.id
+        author = ctx.message.author
+
         if sid in self.known_towns:
-            await self.bot.say("This guild is already signed up. If you would like to change something, please try {}rpgset".format(ctx.prefix))
+            await self.bot.say("This guild is already signed up. If you would like to change something, Please try `{}rpgset`".format(ctx.prefix))
+            return
         else:
+            await self.bot.say("Hey there, {}. Thanks for signing up your server. Please provide a name for your new town! This will be the name of the whole server's town.".format(author.mention))
+            response = await self.bot.wait_for_message(author = author)
+            townName = response.content
+            await self.bot.say("{}? Alright, if you say so. Gimme a second to get things set up, I'll get back to you.".format(townName))
             newTown['Town_Name'] = townName
             newTown['Created_At'] = str(datetime.datetime.now())
             newTown['Level'] = 1
@@ -421,7 +414,9 @@ class Town:
             self.known_towns[sid] = newTown
 
 
-        await self.bot.say("Thank you for signing your guild up! Details for this town are to follow.") #TODO town embed card.
+        await self.bot.say("Thank you for signing your guild up! Details for this town are to follow.") 
+
+        await self.get_town_sheet(sid)
 
         self.savetowns()
 
@@ -438,8 +433,8 @@ class Town:
         sid = ctx.message.server.id
         #TODO make a hollow container to a method of the town class when town customization becomes a thing.
         if sid not in self.known_towns:
-            await self.bot.say("This town has never actually been created before, but I'll go ahead and establish your great wonder with the name {}".format(name))
-            await self.create_town(ctx, name)
+            await self.bot.say("This town has never actually been created before, but I'll go ahead and establish your great wonder")
+            await self.create_town(ctx)
             return
 
         self.known_towns[sid]['Town_Name'] = name
