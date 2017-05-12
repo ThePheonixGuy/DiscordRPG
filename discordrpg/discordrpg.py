@@ -77,7 +77,7 @@ class DiscordRPG:
             return
 
         embed = discord.Embed(title = "Options for {}".format(current_player['CharName']), description = "Use the numbers to make a choice.", colour =0xfd0000)
-        embed.add_field(name='Options', value = "`1.` Get Character Sheet\n`2.` Change Avatar\n`3.` Change Bio", inline = False)
+        embed.add_field(name='Options', value = "`1.` Get Character Sheet\n`2.` Change Avatar\n`3.` Change Bio\n`4.` View Home Town", inline = False)
         embed.set_author(name='{}'.format(author.name), icon_url = '{}'.format(author.avatar_url))
         embed.set_thumbnail(url = 'https://i.ytimg.com/vi/Pq824AM9ZHQ/maxresdefault.jpg')
         await self.bot.say("", embed = embed)
@@ -98,6 +98,10 @@ class DiscordRPG:
                 await self.bot.say("Not a valid URL. Try again.")
         elif '3' in response.content:
             await self.player.setBio(ctx, author.id)
+        elif '4' in response.content:
+            await self.bot.say("Under Construction") #TODO
+
+
         else:
             await self.bot.say("Invalid response. Please try again.")
 
@@ -129,13 +133,16 @@ class DiscordRPG:
 
     @rpg.command(pass_context=True, no_pm = False)
     async def viewtown(self,ctx):
+        """View the details of the guild's town you are currently in"""
         sid = ctx.message.server.id
         await self.town.get_town_sheet(sid)
+        #TODO make a part of Character, Select based on userID, show hometown.
 
     @rpg.command(pass_context=True, no_pm = False)
-    async def monsters(self,ctx):
-        """Lets you see all current monsters. *Testing command*"""
-        await self.monster.get_all_monsters(ctx)
+    async def viewmonster(self,ctx, *, monsterID):
+        """Testing Stub. Please do not use."""
+        await self.monster.getMonsterSheet(monsterID)
+
 
 
 class Player:
@@ -316,11 +323,12 @@ class  Monster:
         self.bot = bot
         self.npcmonsters = dataIO.load_json(monster_path)
 
-    async def get_all_monsters(self, ctx):
-        await self.bot.say(self.npcmonsters)
+    async def getMonsterSheet(self, monsterID):
+        await self.bot.say(monsterID)
 
-    async def monster_info(self,bot,monsterID):
-        pass
+        if monsterID in self.npcmonsters:
+            #this method stub is actually a part check_monster method.
+            pass
 
 class  Map:
     def __init__(self,bot, tile_path, map_path):
@@ -374,13 +382,10 @@ class Town:
         try:
             if townID in self.known_towns:
                 return True
-                print(True)
             else:
                 return False
-                print(False)
         except:
             return False
-            print("Excepted False")
 
     async def get_town_records(self, townID):
         if await self.check_town(townID):
@@ -391,6 +396,10 @@ class Town:
     async def get_town_sheet(self, townID):
 
         town_record = await self.get_town_records(townID)
+
+        if town_record is None:
+            await self.bot.say("Hmmm... It appears the town you are looking for is still in Rubble unfortunately. Torn down by a war long since forgotten.")
+            return
 
         embed = discord.Embed(title= "{}".format(town_record['Town_Name']), description="The humble {} was rebuilt from the rubble On {}".format(town_record['Town_Name'],town_record['Created_At']) , color=0xff0000) #TODO will require a location provider. Part of map Class.
         embed.add_field(name='Rebuilt On', value=town_record['Created_At'], inline=True)
@@ -423,7 +432,7 @@ class Town:
             newTown['Loc_Y'] = 1 #TODO be replaced by the map provider.
             self.known_towns[sid] = newTown
 
-
+        #TODO add town bio. Would be nice.
         await self.bot.say("Thank you for signing your guild up! Details for this town are to follow.") 
 
         await self.get_town_sheet(sid)
