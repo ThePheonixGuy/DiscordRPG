@@ -22,7 +22,7 @@
                 "Type" : "Magic",
                 "DMG" : "2",
                 "DMG_Type" : "Fear"
-            },
+            }
         },
          "M.Attack": 7,
          "Speed": 110,
@@ -79,6 +79,5 @@
        "M.Attack" : 9,
        "Speed" : 120,
        "Attack.Range" : 40
-
     }
 }
