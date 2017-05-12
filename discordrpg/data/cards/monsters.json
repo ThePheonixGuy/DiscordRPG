@@ -1,0 +1,30 @@
+[
+  {
+    "count": 1,
+    "color": "darkblue",
+    "title": "Young Brown Wolf",
+    "icon": "wolf-head",
+    "contents": [
+      "subtitle | Normal - type",
+      "rule",
+      "description| Level |1|",
+      "rule",
+      "section | Attacks",
+      "property | Bite | Melee  Dmg 9 | Spit | Ranged Dmg 7",
+      "property | Growl | Magic Dmg 2 + could cause fear",
+      "rule",
+      "section | Basic Stats",
+      "property | Health: | 40 ",
+      "property | Experience: | 29",
+      "property | Speed: | 110",
+      "rule",
+      "section | Loot",
+      ""
+    ],
+    "tags": [
+      "creature",
+      "Wolf"
+    ],
+    "icon_back": "evil-bat"
+  }
+]
