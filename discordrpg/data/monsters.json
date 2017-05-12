@@ -7,7 +7,23 @@
          "Exp": 29,
          "HP": 40,
          "P.Attack": 8,
-         "Attack": "bite",
+         "Attack": {
+            "Bite" : {
+                "Type" : "Melee",
+                "DMG" : "9",
+                "DMG_Type" : "Normal"
+            },
+            "Spit" : {
+                "Type" : "Ranged",
+                "DMG" : "9",
+                "DMG_Type" : "Poison"
+            },
+            "Growl" : {
+                "Type" : "Magic",
+                "DMG" : "2",
+                "DMG_Type" : "Fear"
+            },
+        },
          "M.Attack": 7,
          "Speed": 110,
          "Attack.Range" : 40

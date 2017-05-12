@@ -1,4 +1,13 @@
 {
+    "172967919700017152" : {
+        "Avatar" : "http://orig09.deviantart.net/2440/f/2013/249/7/a/fantasy_rpg_town_by_e_mendoza-d6lb9td.jpg",
+        "Buildings" : {},
+        "Created_At" : "Fri May 12 14:45:04 2017",
+        "Level" : 1,
+        "Loc_X" : 1,
+        "Loc_Y" : 1,
+        "Town_Name" : "Squabblers Rest"
+    },
     "301474329651052545" : {
         "Avatar" : "https://s-media-cache-ak0.pinimg.com/originals/19/e4/c7/19e4c70749ce741ad6ac9853dc1de58c.png",
         "Buildings" : {},
@@ -6,6 +15,6 @@
         "Level" : 1,
         "Loc_X" : 1,
         "Loc_Y" : 1,
-        "Town_Name" : "Squabblers Outpost"
+        "Town_Name" : "Satsuri no Haro"
     }
 }

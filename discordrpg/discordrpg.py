@@ -46,8 +46,8 @@ class DiscordRPG:
         #TODOLATER allow attachment grabbing. its possible, but im lazy
         author = ctx.message.author
         sid = ctx.message.server.id
-        if validators.url(avatarurl.content):
-            await self.town.set_town_avatar(sid, avatarurl.content)
+        if validators.url(avatarurl):
+            await self.town.set_town_avatar(sid, avatarurl)
         else:
             await self.bot.say("Not a valid URL. Try again.")
 
@@ -225,7 +225,7 @@ class Player:
         bio = await self.bot.wait_for_message(author = author)
 
         await self.bot.say("Great, welcome to {}, {}".format(town_record['Town_Name'], charname))
-
+        #TODO add session counter for tut purposes.
         newplayer['User'] = author.name
         newplayer['HomeTownID'] = hometownid
         newplayer['CharName'] = charname
@@ -259,7 +259,7 @@ class Player:
             self.playerInventories[author.id] = {}
 
         await self.getCharacterSheet(author)
-
+        print("New player registered in {} from server {}. Details: \n{}".format(town_record['Town_Name'], ctx.message.server.name, newplayer))
         self.saveplayers()
         self.saveinventories()
 
@@ -273,7 +273,7 @@ class Player:
         char_town = await self.town.get_town_records(townID)
         current_loc = "***req loc_provider from class Map***"
         embed = discord.Embed(title= "{}".format(char_profile['CharName']), description=current_loc , color=0xff0000) #TODO will require a location provider. Part of map Class.
-        embed.add_field(name='Bio', value = "Hailing from **{}**, *{}* is a {}. In his own words, '*{}*' ".format(char_town['Town_Name'],char_profile['CharName'], char_profile['Race'], char_profile['Bio']), inline = False) #TODO replace with vals
+        embed.add_field(name='Bio', value = "Hailing from **{}**, *{}* is a {}. In his own words, '*{}*' ".format(char_town['Town_Name'],char_profile['CharName'], char_profile['Race'], char_profile['Bio']), inline = False)
         embed.add_field(name='Race', value=char_profile['Race'], inline=True)
         embed.add_field(name='Level', value=char_profile['Level'], inline=True)
         embed.add_field(name='Health', value=char_profile['BaseStats']['HP'], inline=True)
