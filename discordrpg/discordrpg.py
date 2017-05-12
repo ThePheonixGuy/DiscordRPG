@@ -232,8 +232,7 @@ class Player:
         newplayer['Race'] = race
         newplayer['Level'] = 1
         newplayer['Gold'] = 100
-        newplayer['CurrLocX'] = 0
-        newplayer['CurrLocY'] = 0
+        newplayer['Location'] = {'X': 0 ,'Y': 0 } #TODO map provider of c
         newplayer['Bio'] = bio.content
         if 'W' in race:
             newplayer['BaseStats'] = {'HP': 50, 'Mana': 10, 'Stamina': 30}
@@ -415,12 +414,12 @@ class Town:
         sid = ctx.message.server.id
         author = ctx.message.author
 
-        if sid in self.known_towns:
+        if await self.check_town(sid):
             await self.bot.say("This guild is already signed up. If you would like to change something, Please try `{}rpgset`".format(ctx.prefix))
             return
         else:
             await self.bot.say("Hey there, {}. Thanks for signing up your server. Please provide a name for your new town! This will be the name of the whole server's town.".format(author.mention))
-            response = await self.bot.wait_for_message(author = author)
+            response = await self.bot.wait_for_message(author = author) #TODO timeout
             townName = response.content
             await self.bot.say("{}? Alright, if you say so. Gimme a second to get things set up, I'll get back to you.".format(townName))
             newTown['Town_Name'] = townName
@@ -428,8 +427,7 @@ class Town:
             newTown['Level'] = 1
             newTown['Avatar'] = "http://orig09.deviantart.net/2440/f/2013/249/7/a/fantasy_rpg_town_by_e_mendoza-d6lb9td.jpg"
             newTown['Buildings'] = {}
-            newTown['Loc_X'] = 1 #TODO be replaced by the map provider.
-            newTown['Loc_Y'] = 1 #TODO be replaced by the map provider.
+            newTown['Location'] = {'X':1, 'Y':1} #TODO change to map provider.
             self.known_towns[sid] = newTown
 
         #TODO add town bio. Would be nice.
