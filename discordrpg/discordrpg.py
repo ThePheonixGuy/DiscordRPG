@@ -516,4 +516,3 @@ def setup(bot):
         bot.add_cog(DiscordRPG(bot))
     else:
         raise RuntimeError("You need to run pip3 install validators")
-
