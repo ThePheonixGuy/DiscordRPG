@@ -106,7 +106,10 @@ class DiscordRPG:
         elif '3' in response.content:
             await self.player.setBio(ctx, author.id)
         elif '4' in response.content:
-            await self.bot.say("Under Construction") #TODO
+            self.town.savetowns()
+            await self.town.reload_town_records()
+            await self.town.get_town_sheet(current_player['HomeTownID'])
+             #TODO
 
 
         else:
@@ -132,13 +135,6 @@ class DiscordRPG:
         await self.player._createplayer(ctx)
 
     @rpg.command(pass_context=True, no_pm = False)
-    async def play(self,ctx):
-        """Runs a session of DiscordRPG"""
-        #from this point onwards, CTX cannot be used for resources like server ID's. 
-        # Needs to be pulled from the existing resources, in the dicts.
-        await self.bot.say("Under construction...")
-
-    @rpg.command(pass_context=True, no_pm = False)
     async def viewtown(self,ctx):
         """View the details of the guild's town you are currently in"""
         sid = ctx.message.server.id
@@ -155,6 +151,107 @@ class DiscordRPG:
         """Testing sub. Please do not use."""
         user = ctx.message.author
         await self.map.map_provider(user, locX , locY)
+
+    @rpg.command(pass_context=True, no_pm = False)
+    async def viewplayer(self, ctx, user: discord.Member):
+        """Allows you to see the character sheet of another player in the game."""
+
+        hasProfile = await self.player.check_player(user.id)
+
+        if hasProfile:
+            await self.player.getCharacterSheet(user)
+        else:
+            await self.bot.say("That player does not yet exist. Perhaps consider asking them to join using `{}rpg register`?".format(ctx.prefix))
+
+    @rpg.command(pass_context=True, no_pm = False)
+    async def play(self,ctx):
+        """Runs a session of DiscordRPG"""
+        #from this point onwards, CTX cannot be used for resources like server ID's. 
+        # Needs to be pulled from the existing resources, in the dicts.
+        await self.bot.say("This is still under construction. Any bugs are please to be reported using `;;contact` followed by the error given. Thanks for testing out DiscordRPG!")
+        userDO = ctx.message.author
+        await self.reload_town_records()
+        current_player = await self.player.get_player_records(userDO.id)
+        player_town = await self.town.get_town_records(current_player['HomeTownID'])
+        print(player_town)
+        if 'Never' in current_player['Last_Played']:
+            await self.bot.say("Thank you for signing up. Welcome to your next grand adventure")
+            await self.first_adventure_town(ctx, current_player, player_town)
+
+
+    async def first_adventure_town(self, ctx, current_player, player_town):
+        #TODONOW create embed intro story.
+        #TODO description, and options fromjson
+        user = ctx.message.author
+        header = ["Awakening", "First, nothing. Then, just white pain. You wake up on the cold, hard stones. Dazed and Confused, you wonder how it is you ended up here. Opening your eyes to the eye-shattering sunlight, you sit yourself up and take a look around. Doesn't look like much, a simple town you think to yourself. You stand up and decide to have a look around."]
+
+        option = ["Take a look around."]
+
+        em1 = await self.embed_builder(ctx, current_player, header, option)
+
+        await self.bot.say("", embed = em1)
+
+        valid = False
+        while not valid:
+            response = await self.bot.wait_for_message(timeout = 600, author = user)
+            if response is None:
+                valid = True
+                await self.logout(ctx)
+                return
+            if await self.exit_check(response.content):
+                await self.bot.say("Are you sure you wish to end the session here? You will return to this same adventure. Say `yes` to confirm")
+
+                response = await self.bot.wait_for_message(timeout = 600, author = user)
+
+                if response is None:
+                    valid = True
+                    await self.logout(ctx)
+                    return
+                elif 'y' in response.content.lower():
+                    valid = True
+                    await self.bot.say("Logged you out.")
+                    return
+            elif '1' in response.content:
+                #TODONOW continue gameplay here
+                await self.bot.say("Yuu wanna hava looksee ye? Well, I 'avnt gotten that far yet!")
+                return
+            else:
+                await self.bot.say("No correct response detected. Please try again.")
+                continue
+
+
+
+    async def reload_town_records(self):
+        self.town = Town(self.bot, "data/discordrpg/towns.json")
+
+    async def exit_check(self, text):
+        text = text.lower()
+        if 'exit' in text:
+            return True
+        else:
+            return False
+
+    async def logout(self, ctx):
+        await self.bot.say("You took too long, so I logged you out.")
+
+    async def embed_builder(self,ctx, user, header, option):
+        value = ""
+        count = 1
+        for item in option:
+            value = "`{}.`{}\n".format(count,item)
+            count +=1
+        em = discord.Embed(title = "{}".format(header[0]), description = "{}".format(header[1]), colour =0xfd0000)
+        em.add_field(name='Use the numbers to Indicate your Choice.', value = value, inline = False)
+        em.set_author(name='{}'.format(user["CharName"]))
+        em.set_thumbnail(url = user['Avatar'])
+        em.set_footer(text = "Say Exit to logout from this session.")
+        return em
+
+    async def generic_adventure(self, ctx, current_player, player_town):
+        option = []
+        em1 = discord.Embed(title = "{}".format(option[0]), description = "{}".format(option[1]), colour =0xfd0000)
+        em1.add_field(name='Use the numbers to Indicate your Choice.', value = "`1.`{}\n`2.`{}\n`3.`{}\n`4.`{}\n".format(option[2],option[3],option[4],option[5]), inline = False)
+        await self.bot.say("", embed = embed1)
 
 
 
@@ -248,6 +345,8 @@ class Player:
         newplayer['Gold'] = 100
         newplayer['Location'] = town_record['Location']
         newplayer['Bio'] = bio.content
+        newplayer['Last_Played'] = 'Never'
+        newplayer['Sessions'] = 0
         if 'W' in race:
             newplayer['BaseStats'] = {'HP': 50, 'Mana': 10, 'Stamina': 30}
             newplayer['Avatar'] = "https://s-media-cache-ak0.pinimg.com/736x/77/02/6b/77026b08f33fb0b4a35434553c4fccc8.jpg"
@@ -287,12 +386,12 @@ class Player:
         current_loc = await self.map.get_distance_from_home(user, char_profile['Location'])
 
         if current_loc == 0:
-            current_loc = "Currently in {}".format(char_town['Town_Name'])
+            current_loc = "Currently in {}".format(char_town['Town_Name'])#Change to tile provider when complete.
         else:
             current_loc = "{} MU from {}".format(current_loc, char_town['Town_Name'])
         embed = discord.Embed(title= "{}".format(char_profile['CharName']), description=current_loc, color=0xff0000) #TODO will require a location provider. Part of map Class.
         embed.add_field(name='Bio', value = "Hailing from **{}**, *{}* is a {}. In his own words, '*{}*' ".format(char_town['Town_Name'],char_profile['CharName'], char_profile['Race'], char_profile['Bio']), inline = False)
-        embed.add_field(name='Race', value=char_profile['Race'], inline=True)
+        embed.add_field(name='Last Played', value=char_profile['Last_Played'], inline=True)
         embed.add_field(name='Level', value=char_profile['Level'], inline=True)
         embed.add_field(name='Health', value=char_profile['BaseStats']['HP'], inline=True)
         embed.add_field(name='Mana', value=char_profile['BaseStats']['Mana'], inline=True)
@@ -362,8 +461,8 @@ class  Map:
         #TODOSOON add different tile types as -function- of tile difficulty and distance. make a number scale.    
 
     async def map_provider(self, user, locX, locY):
-        # TODOSOON streamline with check_tile()
         # TODOSOON possibly move dict higher up the call stack?
+        # ^^ Only possible once map generation is ctually complete
         location = {'X':locX, 'Y': locY}
         try:
             tileRecord = await self.get_tile_records(location)
@@ -406,7 +505,7 @@ class  Map:
                 if location['Y'] in self.fieldmap[location['X']]:
                     return True
                 else:
-                    return False #TODO change call stack so that it either returns false or awaits a map generation at that location. thus tiles are force generated and saved.
+                    return False #TODO check that forced generation is ensured higher up the call stack.
             else:
                 return False
         except:
@@ -462,8 +561,8 @@ class Town:
         embed = discord.Embed(title= "{}".format(town_record['Town_Name']), description="The humble {} was rebuilt from the rubble On {}".format(town_record['Town_Name'],town_record['Created_At']) , color=0xff0000) #TODO will require a location provider. Part of map Class.
         embed.add_field(name='Location', value=town_record['Location'], inline=True)
         embed.add_field(name='Level', value=town_record['Level'], inline=True)
-        #TODO list iterator for display purposes.
         embed.add_field(name='Current Buildings', value=town_record['Buildings'], inline=False)
+        #TODONOW list iterator for display purposes.
         embed.set_thumbnail(url = town_record['Avatar'])
 
         await self.bot.say(" ", embed = embed)
