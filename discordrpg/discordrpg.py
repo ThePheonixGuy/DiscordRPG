@@ -8,6 +8,7 @@ from __main__ import send_cmd_help
 import os
 from copy import deepcopy, copy
 import datetime
+import math
 try:
     import validators
     validatorsAvail = True
@@ -20,10 +21,16 @@ class DiscordRPG:
 
     def __init__(self, bot):
         self.bot = bot
-        self.player = Player(bot, "data/discordrpg/players.json", "data/discordrpg/inventories.json")
-        self.monster = Monster(bot, "data/discordrpg/monsters.json")
+        self.playerPath = "data/discordrpg/players.json"
+        self.inventoryPath = "data/discordrpg/inventories.json"
+        self.monsterPath = "data/discordrpg/monsters.json"
+        self.townPath = "data/discordrpg/towns.json"
+        self.tilePath = "data/discordrpg/tiletypes.json"
+        self.mapPath = "data/discordrpg/map.json"
+        self.player = Player(bot, self.playerPath, self.inventoryPath)
+        self.monster = Monster(bot, self.monsterPath)
         self.town = Town(bot, "data/discordrpg/towns.json")
-        self.map = Map(bot, "data/discordrpg/tiletypes.json", "data/discordrpg/map.json")
+        self.map = Map(self.player, bot, "data/discordrpg/tiletypes.json", "data/discordrpg/map.json")
         self.settings_path = "data/discordrpg/settings.json"
         self.settings = dataIO.load_json(self.settings_path) 
 
@@ -143,6 +150,12 @@ class DiscordRPG:
         """Testing Stub. Please do not use."""
         await self.monster.getMonsterSheet(monsterID)
 
+    @rpg.command(pass_context=True, no_pm = False)
+    async def viewtile(self,ctx, locX: int, locY: int):
+        """Testing sub. Please do not use."""
+        user = ctx.message.author
+        await self.map.map_provider(user, locX , locY)
+
 
 
 class Player:
@@ -153,7 +166,7 @@ class Player:
         self.playerInventories = dataIO.load_json(invent_path)
         self.monster = Monster(bot, "data/discordrpg/monsters.json")
         self.town = Town(bot, "data/discordrpg/towns.json")
-        self.map = Map(bot, "data/discordrpg/tiletypes.json", "data/discordrpg/map.json")
+        self.map = Map(self, bot, "data/discordrpg/tiletypes.json", "data/discordrpg/map.json")
 
     async def check_player(self, userID):
         try:
@@ -195,6 +208,7 @@ class Player:
         bio = ""
         hometownid = ctx.message.server.id
         hometownname = ctx.message.server.name
+        await self.town.reload_town_records()
         town_record = await self.town.get_town_records(hometownid)
         print("New player is registering in {} from server {}".format(town_record['Town_Name'], ctx.message.server.name))
         completion = "yes" # TODO. retrieve requisite info. add it to dictionary and pass to _createplayer method.
@@ -330,50 +344,78 @@ class  Monster:
             pass
 
 class  Map:
-    def __init__(self,bot, tile_path, map_path):
+    def __init__(self, player, bot, tile_path, map_path):
         self.bot = bot
         self.fieldmap = dataIO.load_json(map_path)
         self.tiletypes = dataIO.load_json(tile_path)
+        self.town = Town(bot, "data/discordrpg/towns.json")
+        self.player = player
 
-    async def map_generator(self, user, loc_x, loc_y):
-        # Takes a co-ordinat x and y. Needs to check if the x value exists in the dict.
-        # the dict is layed out as follows:
-        # row to coloumn basis. One x co-ord, with every Discovered Y co-ord as a value of that x co-ord key.
-        # thus a call to a specific tile location will look like:
-        # self.fieldmap[x_co_ord][y_co_ord]
+    async def map_generator(self, user, location):
+        #TODO i want this so rigoursly checked, either implicitly or explicitly in the other function calls that this try catch is not necessary.
+        locX = location['X']
+        locY = location['Y']
+        player_record = await self.player.get_player_records(user.id)
+        homeTownID = player_record["HomeTownID"]
+        homeTown = await self.town.get_town_records(homeTownID)
+        print(homeTown)
+        townLocation = homeTown['Location']
+        townX = int(townLocation['X'])
+        townY = int(townLocation['Y'])
 
-        # You need to check the passed location co-rds to see if theyre in the dict. Use try except blocks, i will do the x co-ord for you, or use an "if key not in dict" structure.
-        # If it exists, return.
-        # If not, add it to the dict. 
-        # decide a random tile to occur from titletypes.json (will add the import later) and add it to the dict at that location  such that self.fieldmap[x][y] = {tile details} 
-        # ^^this needs to be a function of distance from home town and user lvl, compared to the tile difficulty. remember monster spawning will be automated off this so you dont have to account for it.
-        # Save the decided tile to the dict. Save the dict to a file. Thus the thing will continually generate as new distances are explored. 
+        distX = locX - townX
+        distY = locY - townY
+        pDistance = math.hypot(distX, distY)
+        pDistance  = round(pDistance)
+        await self.bot.say(pDistance)
         
+        #TODO add different tile types as -function- of tile difficulty and distance. make a number scale.    
+
+    async def map_provider(self, user, locX, locY):
+        # TODO streamline with check_tile()
+        # TODO possibly move higher up the call stack?
+        location = {'X':locX, 'Y': locY}
         try:
-            if loc_x  in self.fieldmap:
-                if loc_y in self.fieldmap[loc_x]:
-                    return
+            tileRecord = await self.get_tile_records(location)
+            if tileRecord is None:
+                await self.map_generator(user, location)
+                tileRecord = await self.get_tile_records(location)
+            print(tileRecord)
+        except Exception as e:
+            print("Exception: {}".format(e))
+
+
+    async def get_surrounds(self, user):
+        # gets users current location.
+        # checks self.fieldmap for all nine tiles around it, be 
+        # x;y, x;y+, x;y-, x+;y, x+;y+, x+;y-, x-:y, x-;y+, x-;y-
+        # ^^ nine tiles. pass and call for each option to the map provider.   
+        pass #TODOSOON for now.
+    
+    async def check_tile(self,location):
+        """ takes the give location and checks if its in fieldmap"""
+        try:
+            if location['X'] in self.fieldmap:
+                if location['Y'] in self.fieldmap[location['X']]:
+                    return True
                 else:
-                    townX = townLocation['X']
-                    townY = townLocation['Y']
-                    pDistance = round(sqrt((loc_x -townX)*(loc_x -townX)+((loc_y -townY)(loc_Y -townY))))
-
-                    IF pDistance < 5 :
-                        tiletypes = grass
-                        return
-
-                    return
+                    return False #TODO change call stack so that it either returns false or awaits a map generation at that location. thus tiles are force generated and saved.
             else:
-                self.fieldmap[loc_x] = {}
-                self.map_generator(user, loc_x, loc_y)
-                return
+                return False
         except:
-            await self.bot.say("This error must not appear when the game is published to mainserver.")
+            return False
 
-    def maptester(self):
-        pass
+    async def get_tile_records(self, location):
+        tileExists = await self.check_tile(location)
 
-        
+        if tileExists:
+            return deepcopy(self.fieldmap[location['X']][location['Y']])
+        else:
+            # Calls mapp provider to create the tile, then attempts to return it.
+            # ^^ Good idea but no. Implicitly check for this higher up the stack so that the user object doesnt need to be passed so far.
+            return None
+
+
     def savemap(self):
         f = "data/discordrpg/map.json"
         dataIO.save_json(f, self.fieldmap)
@@ -383,6 +425,9 @@ class Town:
     def __init__(self,bot,towns_path):
         self.bot = bot
         self.known_towns = dataIO.load_json(towns_path)
+
+    async def reload_town_records(self):
+        self.known_towns = dataIO.load_json("data/discordrpg/towns.json")
 
     async def check_town(self, townID):
         try:
@@ -408,7 +453,7 @@ class Town:
             return
 
         embed = discord.Embed(title= "{}".format(town_record['Town_Name']), description="The humble {} was rebuilt from the rubble On {}".format(town_record['Town_Name'],town_record['Created_At']) , color=0xff0000) #TODO will require a location provider. Part of map Class.
-        embed.add_field(name='Rebuilt On', value=town_record['Created_At'], inline=True)
+        embed.add_field(name='Location', value=town_record['Location'], inline=True)
         embed.add_field(name='Level', value=town_record['Level'], inline=True)
         #TODO list iterator for display purposes.
         embed.add_field(name='Current Buildings', value=town_record['Buildings'], inline=False)
