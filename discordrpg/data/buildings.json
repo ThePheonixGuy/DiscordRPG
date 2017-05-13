@@ -1,0 +1,65 @@
+{
+    "buildingName" : {
+        "Avatar" : "",
+        "Name" : "",
+        "Info" : "",
+        "Disc" : ""
+    },
+    "TownHall" : {
+        "Avatar" : "url here",
+        "Name" : "Town Hall",
+        "Info" : "This is the Town Hall. The current mayor can start votes and make disisions here",
+        "Disc" : "From the outside the building is very large and looks sturdy able to hold all the villagers incase of a garrison. As you enter there is a woman sitting at the desk with pointed glasses She asks you Can i help you?"
+    },
+    "MarketPlace" : {
+        "Avatar" : "url here",
+        "Name" : "Market Place",
+        "Info" : "This is where you go to buy and sell stuff.",
+        "Desc" : "There are a few building with signs above the doors on what they sell.",
+        "Stores" : {
+            "Blacksmith" : {
+                "Avatar" : "url here",
+                "Name" : "Building Name",
+                "Info" : "This is where you go to buy and sell basic weapons.",
+                "Desc" : "The sign above this building is a hammer above an anvil. Inside the wall is lined with diffrent swords and shilds and other equipment."               
+            },
+            "Apothary" : {
+                "Avatar" : "url here",
+                "Name" : "Building Name",
+                "Info" : "This is where you go to buy and sell Potions and ingredients.",
+                "Desc" : "The sign above this building is a potion. Inside there are couldrens bubboling a boiling there is an old woman sturing."                              
+            },
+            "Arcana" : {
+                "Avatar" : "url here",
+                "Name" : "Building Name",
+                "Info" : "This is where you go to buy and sell Arcane items.",
+                "Desc" : "The sign above this building is a mage staff. Inside there are rows of books and trinkets used for spells."                               
+            }
+
+        }
+    },
+    "Tavern" : {
+        "Avatar" : "url here",
+        "Name" : "",
+        "Info" : "This is where you go to buy food and drink till you drop but dont worry there are beds too incase you want to sleep.",
+        "Desc" : "As you approch the building all you hear is loud chatter and the chering sound of music and people dancing. the smell of alcahol courses through the air."
+    },
+    "Gate" : {
+        "Avatar" : "url here",
+        "Name" : "",
+        "Info" : "Go here to enter and exit the town.",
+        "Desc" : "The Gate towers over you at least four men at the foot of the gate and several on top."
+    },
+    "Fountain" : {
+        "Avatar" : "url here",
+        "Name" : "",
+        "Info" : "You can drink from it or make a wish.",
+        "Desc" : "There are buildings in a square all arround the fountain. You see the glittering coins at the bottom of the fountain"
+    },
+    "Timms" : {
+        "Avatar" : "url here",
+        "Name" : "",
+        "Info" : "Sell all items here but you wont get as much as you might like from it but the town will benifit greatly.",
+        "Desc" : "There are many people rushing about the large building very plain looking with large amounts of items just stock piled ready to be sold to the traders"
+    }
+}
