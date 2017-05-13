@@ -246,7 +246,7 @@ class Player:
         newplayer['Race'] = race
         newplayer['Level'] = 1
         newplayer['Gold'] = 100
-        newplayer['Location'] = {'X': 0 ,'Y': 0 } #TODO map provider of c
+        newplayer['Location'] = town_record['Location']
         newplayer['Bio'] = bio.content
         if 'W' in race:
             newplayer['BaseStats'] = {'HP': 50, 'Mana': 10, 'Stamina': 30}
@@ -284,8 +284,13 @@ class Player:
         char_profile = await self.get_player_records(user.id)
         townID = char_profile['HomeTownID']
         char_town = await self.town.get_town_records(townID)
-        current_loc = "***req loc_provider from class Map***"
-        embed = discord.Embed(title= "{}".format(char_profile['CharName']), description=current_loc , color=0xff0000) #TODO will require a location provider. Part of map Class.
+        current_loc = await self.map.get_distance_from_home(user, char_profile['Location'])
+
+        if current_loc == 0:
+            current_loc = "Currently in {}".format(char_town['Town_Name'])
+        else:
+            current_loc = "{} MU from {}".format(current_loc, char_town['Town_Name'])
+        embed = discord.Embed(title= "{}".format(char_profile['CharName']), description=current_loc, color=0xff0000) #TODO will require a location provider. Part of map Class.
         embed.add_field(name='Bio', value = "Hailing from **{}**, *{}* is a {}. In his own words, '*{}*' ".format(char_town['Town_Name'],char_profile['CharName'], char_profile['Race'], char_profile['Bio']), inline = False)
         embed.add_field(name='Race', value=char_profile['Race'], inline=True)
         embed.add_field(name='Level', value=char_profile['Level'], inline=True)
@@ -353,27 +358,12 @@ class  Map:
 
     async def map_generator(self, user, location):
         #TODO i want this so rigoursly checked, either implicitly or explicitly in the other function calls that this try catch is not necessary.
-        locX = location['X']
-        locY = location['Y']
-        player_record = await self.player.get_player_records(user.id)
-        homeTownID = player_record["HomeTownID"]
-        homeTown = await self.town.get_town_records(homeTownID)
-        print(homeTown)
-        townLocation = homeTown['Location']
-        townX = int(townLocation['X'])
-        townY = int(townLocation['Y'])
-
-        distX = locX - townX
-        distY = locY - townY
-        pDistance = math.hypot(distX, distY)
-        pDistance  = round(pDistance)
-        await self.bot.say(pDistance)
-        
-        #TODO add different tile types as -function- of tile difficulty and distance. make a number scale.    
+        pass
+        #TODOSOON add different tile types as -function- of tile difficulty and distance. make a number scale.    
 
     async def map_provider(self, user, locX, locY):
-        # TODO streamline with check_tile()
-        # TODO possibly move higher up the call stack?
+        # TODOSOON streamline with check_tile()
+        # TODOSOON possibly move dict higher up the call stack?
         location = {'X':locX, 'Y': locY}
         try:
             tileRecord = await self.get_tile_records(location)
@@ -384,6 +374,23 @@ class  Map:
         except Exception as e:
             print("Exception: {}".format(e))
 
+    async def get_distance_from_home(self,user,location):
+        """def for returning the distance from home, because of how impotrant this is"""
+        locX = location['X']
+        locY = location['Y']
+        player_record = await self.player.get_player_records(user.id)
+        homeTownID = player_record["HomeTownID"]
+        homeTown = await self.town.get_town_records(homeTownID)
+        print(homeTown)
+        townLocation = homeTown['Location']
+        townX = townLocation['X']
+        townY = townLocation['Y']
+
+        distX = locX - townX
+        distY = locY - townY
+        pDistance = math.hypot(distX, distY)
+        pDistance  = round(pDistance)
+        return (pDistance)
 
     async def get_surrounds(self, user):
         # gets users current location.
