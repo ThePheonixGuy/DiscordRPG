@@ -213,12 +213,20 @@ class DiscordRPG:
                     return
             elif '1' in response.content:
                 #TODONOW continue gameplay here
-                await self.bot.say("Yuu wanna hava looksee ye? Well, I 'avnt gotten that far yet!")
-                return
+                option = ["Try for the gate. It's time to get out of here.", "Approach the Fountain.", "Take a closer look at the buildings around you."]
+                header[1] = "You pull yourself to your feet. As you do, a stranger calls out to you, 'Woah hold on there friend! Name's Timm.' He hands you a tankard,which you gulp down.\n Timm continues, 'Some big fella's dragged you in overnight. I saw it from my shop, Timms Town Improvement! How about you come round and have a lok when you're ready?' \n You have a look around the town. It's all in a circle, clearly having only just being rebuilt from Rubble. You see a dirty Fountain in the centre of the courtyard. You notice a Gate behind you, seemingly ungaurded.\n\n What shall you do next?" 
+
+                em1 = await self.embed_builder(ctx, current_player, header, option)
+                await self.bot.say("", embed = em1)
+                valid = True
+                break
             else:
                 await self.bot.say("No correct response detected. Please try again.")
                 continue
 
+        valid = False
+        while not valid:
+            response = await self.bot.wait_for_message(timeout = 600, author = user)
 
 
     async def reload_town_records(self):
@@ -238,7 +246,7 @@ class DiscordRPG:
         value = ""
         count = 1
         for item in option:
-            value = "`{}.`{}\n".format(count,item)
+            value += "`{}.`{}\n".format(count,item)
             count +=1
         em = discord.Embed(title = "{}".format(header[0]), description = "{}".format(header[1]), colour =0xfd0000)
         em.add_field(name='Use the numbers to Indicate your Choice.', value = value, inline = False)
@@ -558,10 +566,14 @@ class Town:
             await self.bot.say("Hmmm... It appears the town you are looking for is still in Rubble unfortunately. Torn down by a war long since forgotten.")
             return
 
-        embed = discord.Embed(title= "{}".format(town_record['Town_Name']), description="The humble {} was rebuilt from the rubble On {}".format(town_record['Town_Name'],town_record['Created_At']) , color=0xff0000) #TODO will require a location provider. Part of map Class.
-        embed.add_field(name='Location', value=town_record['Location'], inline=True)
+        location = "X: {}\nY: {}".format(town_record['Location']['X'], town_record['Location']['Y'])
+
+        buildings = ", ".join(town_record['Buildings'])
+
+        embed = discord.Embed(title= "{}".format(town_record['Town_Name']), description="The humble {} was rebuilt from the rubble on {}. \n{}".format(town_record['Town_Name'],town_record['Created_At'], town_record['Description']) , color=0xff0000)
+        embed.add_field(name='Location', value=location, inline=True)
         embed.add_field(name='Level', value=town_record['Level'], inline=True)
-        embed.add_field(name='Current Buildings', value=town_record['Buildings'], inline=False)
+        embed.add_field(name='Current Buildings', value=buildings, inline=False)
         #TODONOW list iterator for display purposes.
         embed.set_thumbnail(url = town_record['Avatar'])
 
@@ -580,11 +592,15 @@ class Town:
             response = await self.bot.wait_for_message(author = author) #TODO timeout
             townName = response.content
             await self.bot.say("{}? Alright, if you say so. Gimme a second to get things set up, I'll get back to you.".format(townName))
+
+            townLevelDetail = dataIO.load_json("data/discordrpg/townlevels.json")
+
             newTown['Town_Name'] = townName
             newTown['Created_At'] = datetime.datetime.ctime(datetime.datetime.now())
             newTown['Level'] = 1
             newTown['Avatar'] = "http://orig09.deviantart.net/2440/f/2013/249/7/a/fantasy_rpg_town_by_e_mendoza-d6lb9td.jpg"
-            newTown['Buildings'] = {}
+            newTown['Buildings'] = townLevelDetail["001"]["Buildings"]
+            newTown['Description'] = townLevelDetail["001"]["Description"]
             newTown['Location'] = {'X':1, 'Y':1} #TODO change to map provider.
             self.known_towns[sid] = newTown
 
@@ -666,6 +682,10 @@ def check_files():
     f = "data/discordrpg/monsters.json"
     if not dataIO.is_valid_json(f):
         raise RuntimeError("Data file monsters.json is either missing from the data folder or corrupt. Please redownload it and place it in your bot's data/discordrpg/ folder")
+
+    f = "data/discordrpg/townlevels.json"
+    if not dataIO.is_valid_json(f):
+        raise RuntimeError("Data file townlevels.json is either missing from the data folder or corrupt. Please redownload it and place it in your bot's data/discordrpg/ folder")
 
 
 def setup(bot):
