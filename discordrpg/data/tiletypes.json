@@ -3,7 +3,7 @@
         "MovementMod" : 1,
         "SpawnRate" : 1,
         "NPC_Difficulty" : 1,
-        "NPC_Type" : ["Normal"]
+        "NPC_Type" : ["Normal", "Nature", "Grass"]
     },
     "Wetland" : {
         "MovementMod" : 4,
@@ -54,6 +54,12 @@
         "NPC_Type" : ["Normal","Fire"]
     },  
     "Town" : {
+        "MovementMod" : 0,
+        "SpawnRate" : 0,
+        "NPC_Difficulty" : 100,
+        "NPC_Type" : ["Human"]
+    },
+    "City Ruins" : {
         "MovementMod" : 0,
         "SpawnRate" : 0,
         "NPC_Difficulty" : 100,

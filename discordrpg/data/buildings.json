@@ -19,18 +19,18 @@
         "Stores" : {
             "Blacksmith" : {
                 "Avatar" : "url here",
-                "Name" : "Building Name",
+                "Name" : "Blacksmith",
                 "Info" : "This is where you go to buy and sell basic weapons.",
                 "Desc" : "The sign above this building is a hammer above an anvil. Inside the wall is lined with diffrent swords and shilds and other equipment."               
             },
             "Apothary" : {
                 "Avatar" : "url here",
-                "Name" : "Building Name",
+                "Name" : "Apothary",
                 "Info" : "This is where you go to buy and sell Potions and ingredients.",
                 "Desc" : "The sign above this building is a potion. Inside there are couldrens bubboling a boiling there is an old woman sturing."                              
             },
             "Arcana" : {
-                "Avatar" : "url here",
+                "Avatar" : "Arcana",
                 "Name" : "Building Name",
                 "Info" : "This is where you go to buy and sell Arcane items.",
                 "Desc" : "The sign above this building is a mage staff. Inside there are rows of books and trinkets used for spells."                               

@@ -1,0 +1,26 @@
+{
+	"001" : {
+		"Description" : "Seems like a pretty small town. Everything is circular in fashion, with everything centered around an old, dirty fountain",
+		"Buildings" : ["TownHall","Tavern","Fountain", "Timms", "Gate"]
+	},
+	"002" : {
+		"Description" : "Someone has managed to take a cloth to the fountain. It now sparkles in the center, like a monument to the new work starting in this town. A new informal Market Place has opened up just around from Timm's. Seems all those people selling their items to good ol' Timmy does go to something afterall.",
+		"Buildings" : ["MarketPlace","TownHall","Tavern","Fountain", "Timms", "Gate"]
+	},
+	"003" : {
+		"Description" : "The Market Place now has its own banner above the entrance, and its extra eyes and hands seems to have helped its stocks. The town is flourishing all around, with the population growing ever more. The new School will help to keep people Up to speed with all their fascinations.",
+		"Buildings" : ["TownHall","Tavern","Fountain", "Timms", "Gate"]
+	},
+	"004" : {
+		"Description" : "",
+		"Buildings" : ["TownHall","Tavern","Fountain", "Timms", "Gate"]
+	},
+	"005" : {
+		"Description" : "",
+		"Buildings" : ["TownHall","Tavern","Fountain", "Timms", "Gate"]
+	},
+	"006" : {
+		"Description" : "",
+		"Buildings" : ["TownHall","Tavern","Fountain", "Timms", "Gate"]
+	},
+}
