@@ -354,7 +354,14 @@ class  Map:
                 if loc_y in self.fieldmap[loc_x]:
                     return
                 else:
-                    # code to select a tile goes here
+                    townX = townLocation['X']
+                    townY = townLocation['Y']
+                    pDistance = round(sqrt((loc_x -townX)*(loc_x -townX)+((loc_y -townY)(loc_Y -townY))))
+
+                    IF pDistance < 5 :
+                        tiletypes = grass
+                        return
+
                     return
             else:
                 self.fieldmap[loc_x] = {}
