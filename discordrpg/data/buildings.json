@@ -53,19 +53,19 @@
     "Gate" : {
         "Avatar" : "https://s-media-cache-ak0.pinimg.com/originals/cf/48/25/cf4825f7e3b091f8c91161944fa510b3.jpg",
         "Name" : "Gate",
-        "Info" : "Go here to enter and exit the town.",
+        "Info" : "Go here to enter to exit the town.",
         "Desc" : "The Gate towers over you at least four men at the foot of the gate and several on top."
     },
     "Fountain" : {
         "Avatar" : "https://s-media-cache-ak0.pinimg.com/originals/e6/71/ee/e671ee4fbb7ad2339be802d54585df8a.jpg",
-        "Name" : "Square",
-        "Info" : "You can drink from it or make a wish.",
+        "Name" : "Fountain",
+        "Info" : "Has a Dirtied out plaque underneath it, barely readable. Still covered in Algae.",
         "Desc" : "There are buildings in a square all arround the fountain. You see the glittering coins at the bottom of the fountain"
     },
     "Timms" : {
         "Avatar" : "https://s-media-cache-ak0.pinimg.com/originals/25/c8/a6/25c8a6e285695aeb2ba08c4ad91edf39.jpg",
         "Name" : "T.I.M.S",
-        "Info" : "Sell all items here but you wont get as much as you might like from it but the town will benifit greatly.",
+        "Info" : "Sell all items here but you wont get as much as you might like - Timm Focuses on improving the town. Any purchase or sale here aids the town's reconstruction efforts!",
         "Desc" : "There are many people rushing about the large building very plain looking with large amounts of items just stock piled ready to be sold to the traders"
     }
 }
