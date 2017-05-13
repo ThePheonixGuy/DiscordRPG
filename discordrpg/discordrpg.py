@@ -438,11 +438,14 @@ class Town:
             self.known_towns[sid] = newTown
 
         #TODO add town bio. Would be nice.
+        #TODO Basic buildings tavern and Town Builder.
         await self.bot.say("Thank you for signing your guild up! Details for this town are to follow.") 
 
         await self.get_town_sheet(sid)
 
         self.savetowns()
+
+        return newTown
 
     async def set_town_avatar(self, townID, url):
         if self.check_town(townID):

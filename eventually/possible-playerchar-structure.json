@@ -1,0 +1,45 @@
+{
+    "172082800994811904" : {
+        "Avatar" : "http://kronikum.com/wp-content/uploads/2016/07/world-of-warcraft7.jpg",
+        "HomeTownID" : "172967919700017152",
+        "User" : "Big Lez (Skitz Mate)",
+        "Characters" : {
+            "1":{
+                "BaseStats" : {
+                    "HP" : 35,
+                    "Mana" : 30,
+                    "Stamina" : 15
+                },
+                "Bio" : "The Guardian of Azeroth",
+                "CharName" : "Khadgar",
+                "Gold" : 100,
+                "Level" : 1,
+                "Race" : "Sorcerer",
+            },
+            "2":{
+                "BaseStats" : {
+                    "HP" : 35,
+                    "Mana" : 30,
+                    "Stamina" : 15
+                },
+                "Bio" : "The Guardian of Azeroth",
+                "CharName" : "Khadgar",
+                "Gold" : 100,
+                "Level" : 1,
+                "Race" : "Sorcerer",
+            },
+            "3":{
+                "BaseStats" : {
+                    "HP" : 35,
+                    "Mana" : 30,
+                    "Stamina" : 15
+                },
+                "Bio" : "The Guardian of Azeroth",
+                "CharName" : "Khadgar",
+                "Gold" : 100,
+                "Level" : 1,
+                "Race" : "Sorcerer",
+            }
+        }
+    }
+}
