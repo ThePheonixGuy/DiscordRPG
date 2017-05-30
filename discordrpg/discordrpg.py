@@ -31,7 +31,7 @@ class DiscordRPG:
         self.mapPath = "data/discordrpg/map.json"
         self.player = Player(bot, self.playerPath, self.inventoryPath)
         self.monster = Monster(bot, self.monsterPath)
-        self.town = Town(bot, "data/discordrpg/towns.json")
+        self.town = Town(bot, self.player, "data/discordrpg/towns.json")
         self.map = Map(
             self.player, bot, "data/discordrpg/tiletypes.json", "data/discordrpg/map.json")
         self.settings_path = "data/discordrpg/settings.json"
@@ -204,8 +204,11 @@ class DiscordRPG:
         userDO = ctx.message.author
         await self.reload_town_records()
         current_player = await self.player.get_player_records(userDO.id)
+        if current_player is None:
+            await self.bot.say("It seems you have never registered with the rpg."
+                               " Please try `{}rpg register`".format(ctx.prefix))
+            return 
         player_town = await self.town.get_town_records(current_player['HomeTownID'])
-
         if player_town is None:
             await self.bot.say("Hmmm... It appears your town is still in Rubble unfortunately."
                                "Torn down by a war long since forgotten. "
@@ -375,8 +378,8 @@ class DiscordRPG:
         player_race = current_player['Race']
         location = player_town['Location']
         location['Y'] += 1
-        tile = await self.map.get_tile_records(current_player, location)
-        print(tile)
+        tile = await self.map.get_tile_records(user, location)
+        current_player = self.player.update_location(user, location)
 
         option = self.default_options
         header = ["Title","Description"]
@@ -389,10 +392,18 @@ class DiscordRPG:
 
         em1 = await self.embed_builder(ctx, current_player, header, option)
         await self.bot.say("", embed=em1)
-        return
+        
+        valid = False
+        while not valid:
+            response = await self.loop_checks(ctx)
+            if not response:
+                valid = True
+                return
+            elif '1' in response.content:
+                surrounds = await self.map.get_surrounds(user, location)
 
     async def reload_town_records(self):
-        self.town = Town(self.bot, "data/discordrpg/towns.json")
+        self.town = Town(self.bot, self.player, "data/discordrpg/towns.json")
 
     async def exit_check(self, text):
         text = text.lower()
@@ -473,7 +484,7 @@ class Player:
         self.playerRoster = dataIO.load_json(player_path)
         self.playerInventories = dataIO.load_json(invent_path)
         self.monster = Monster(bot, "data/discordrpg/monsters.json")
-        self.town = Town(bot, "data/discordrpg/towns.json")
+        self.town = Town(bot, self, "data/discordrpg/towns.json")
         self.map = Map(self, bot, "data/discordrpg/tiletypes.json",
                        "data/discordrpg/map.json")
 
@@ -521,8 +532,6 @@ class Player:
         town_record = await self.town.get_town_records(hometownid)
         print("New player is registering in {} from server {}".format(
             town_record['Town_Name'], ctx.message.server.name))
-        # TODO. retrieve requisite info. add it to dictionary and pass to
-        # _createplayer method.
         completion = "yes"
 
         embed = discord.Embed(
@@ -592,6 +601,8 @@ class Player:
         if not has_invent:
             self.playerInventories[author.id] = {}
 
+        self.saveplayers()
+        self.saveinventories()
         await self.getCharacterSheet(author)
         print("New player registered in {} from server {}. Details: \n{}".format(
             town_record['Town_Name'], ctx.message.server.name, newplayer))
@@ -659,6 +670,11 @@ class Player:
         await self.bot.say("Done!")
         self.saveplayers()
 
+    async def update_location(self, user, location):
+        current_player = await self.get_player_records(user.id)
+        current_player['Location'] = location
+        return current_player
+
     def saveplayers(self):
         f = "data/discordrpg/players.json"
         dataIO.save_json(f, self.playerRoster)
@@ -688,11 +704,49 @@ class Map:
         self.bot = bot
         self.fieldmap = dataIO.load_json(map_path)
         self.tiletypes = dataIO.load_json(tile_path)
-        self.town = Town(bot, "data/discordrpg/towns.json")
+        self.town = Town(bot, player, "data/discordrpg/towns.json")
         self.player = player
 
     async def reload_map(self):
         self.fieldmap = dataIO.load_json("data/discordrpg/towns.json")
+
+    async def oldtown_generator(self, location, town_info):
+        try:
+            tile_info = dataIO.load_json("data/discordrpg/tiletypes.json")
+        except:
+            raise RuntimeError("Tile type data is corrupt. Please reload it")
+        try:
+            tile_details = dataIO.load_json("data/discordrpg/tiledetails.json")
+        except:
+            raise RuntimeError("Tile type data is corrupt. Please reload it")
+        x = str(location['X'])
+        y = str(location['Y'])
+        if x not in self.fieldmap:
+            if y not in self.fieldmap:
+                tile = "Old_Town"
+                tile_dict = tile_details[tile]
+                tile_dict['Name'] = town_info["Town_Name"]
+                tile = town_info["Town_Name"]
+                tile_details = {"Name" : town_info["Town_Name"], town_info["Town_Name"] : tile_dict}
+                tile_details[tile]["Name"] = town_info["Town_Name"]
+                tile_details[tile]["Location"] = {'X' : location['X'], 'Y' : location['Y']}
+                #TODO make create_town make the founding member these.
+                tile_details[tile]["Distance"] = ""
+                tile_details[tile]["Founding_Player"] = ""
+                x = str(location['X'])
+                y = str(location['Y'])
+                try:
+                    oldmap_at_x = self.fieldmap[x]
+                except:
+                    self.fieldmap[x] = {}
+                self.fieldmap[x][y] = tile_details 
+                self.savemap()
+                return tile_details
+            else:
+                return None
+        else:
+            return None
+
 
     async def map_generator(self, user, location):
         # TODO 
@@ -727,6 +781,7 @@ class Map:
             tile = random.choice(level_list)
             tile_dict = tile_details[tile]
             tile_details = {"Name" : tile, tile : tile_dict}
+            tile_details[tile]["Name"] = tile
             tile_details[tile]["Location"] = {'X' : location['X'], 'Y' : location['Y']}
             tile_details[tile]["Distance"] = dist
             tile_details[tile]["Founding_Player"] = player_record["CharName"]
@@ -746,6 +801,7 @@ class Map:
             tile = random.choice(level_list)
             tile_dict = tile_details[tile]
             tile_details = {"Name" : tile, tile : tile_dict}
+            tile_details[tile]["Name"] = tile
             tile_details[tile]["Location"] = {'X' : location['X'], 'Y' : location['Y']}
             tile_details[tile]["Distance"] = dist
             tile_details[tile]["Founding_Player"] = player_record["CharName"]
@@ -767,6 +823,7 @@ class Map:
             tile = random.choice(level_list)
             tile_dict = tile_details[tile]
             tile_details = {"Name" : tile, tile : tile_dict}
+            tile_details[tile]["Name"] = tile
             tile_details[tile]["Location"] = {'X' : location['X'], 'Y' : location['Y']}
             tile_details[tile]["Distance"] = dist
             tile_details[tile]["Founding_Player"] = player_record["CharName"]
@@ -788,6 +845,7 @@ class Map:
             tile = random.choice(level_list)
             tile_dict = tile_details[tile]
             tile_details = {"Name" : tile, tile : tile_dict}
+            tile_details[tile]["Name"] = tile
             tile_details[tile]["Location"] = {'X' : location['X'], 'Y' : location['Y']}
             tile_details[tile]["Distance"] = dist
             tile_details[tile]["Founding_Player"] = player_record["CharName"]
@@ -808,9 +866,9 @@ class Map:
             print(level_list)
 
             tile = random.choice(level_list)
-            print(tile)
             tile_dict = tile_details[tile]
             tile_details = {"Name" : tile, tile : tile_dict}
+            tile_details[tile]["Name"] = tile
             tile_details[tile]["Location"] = {'X' : location['X'], 'Y' : location['Y']}
             tile_details[tile]["Distance"] = dist
             tile_details[tile]["Founding_Player"] = player_record["CharName"]
@@ -833,6 +891,7 @@ class Map:
             tile = random.choice(level_list)
             tile_dict = tile_details[tile]
             tile_details = {"Name" : tile, tile : tile_dict}
+            tile_details[tile]["Name"] = tile
             tile_details[tile]["Location"] = {'X' : location['X'], 'Y' : location['Y']}
             tile_details[tile]["Distance"] = dist
             tile_details[tile]["Founding_Player"] = player_record["CharName"]       
@@ -847,8 +906,8 @@ class Map:
             self.fieldmap[x] = {}
         self.fieldmap[x][y] = tile_details 
         self.savemap()
-        #await self.reload_map()
-        return tile
+
+        return tile_details
 
 
     async def map_provider(self, user, location):
@@ -914,6 +973,19 @@ class Map:
         north_west_tile = await self.map_provider(user, north_west)
         print(north_west_tile)
 
+        surrounds = {
+            "North" : north_tile,
+            "North East" : north_east_tile,
+            "North West" : north_west_tile,
+            "East" : east_tile,
+            "West" : west_tile,
+            "South" : south_tile,
+            "South East" : south_east_tile,
+            "South West" : south_west_tile
+        }
+
+        
+
 
 
     async def check_tile(self, location):
@@ -953,6 +1025,35 @@ class Map:
                 item = await self._find_tile_type(v, tile_type)
                 if item is not None:
                     return item
+        return None
+
+    async def replace_town(self, town_info, user):
+        #TODO location provider for the new towns.
+        isLocation = await self.find_tile("Old_Town")
+        location = {}
+        available_location = True
+        town_name = town_info["Town_Name"]
+        if isLocation is None:
+            available_location = False
+            while not available_location:
+                # random x between -30 and 30, same for y.
+                # create a tile. 
+                # search at that location. If old town, replace data with town.
+                # return the location
+                x = random.randint(-30,30)
+                y = random.randint(-30,30)
+                location = {'X' : x, 'Y' : y}
+                tile = await self.oldtown_generator(location, town_info)
+                print(tile)
+                if tile['Name'] == town_name:
+                    available_location = True
+                    return location
+                    break
+                else: 
+                    continue
+
+        print(isLocation)
+
 
     def savemap(self):
         f = "data/discordrpg/map.json"
@@ -961,8 +1062,9 @@ class Map:
 
 class Town:
 
-    def __init__(self, bot, towns_path):
+    def __init__(self, bot, player, towns_path):
         self.bot = bot
+        self.player = player
         self.known_towns = dataIO.load_json(towns_path)
 
     async def reload_town_records(self):
@@ -979,6 +1081,7 @@ class Town:
 
     async def get_town_records(self, townID):
         if await self.check_town(townID):
+            print("Town Lookup request for {}".format(townID))
             return deepcopy(self.known_towns[townID])
         else:
             return None
@@ -1040,8 +1143,12 @@ class Town:
             newTown['Buildings'] = townLevelDetail["001"]["Buildings"]
             newTown['Description'] = townLevelDetail["001"]["Description"]
             # TODO change to map provider.
-            newTown['Location'] = {'X': 1, 'Y': 1}
+            fieldmap = Map(self.bot, self.player, "data/discordrpg/tiletypes.json", "data/discordrpg/map.json")
+            location = await fieldmap.replace_town(newTown, author)
+            print(location)
+            newTown['Location'] = location
             self.known_towns[sid] = newTown
+
 
         # TODO add town bio. Would be nice.
         # TODO Basic buildings tavern and Town Builder.

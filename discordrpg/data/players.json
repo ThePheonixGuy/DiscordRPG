@@ -1,25 +1,4 @@
 {
-    "156799987919880192" : {
-        "Avatar" : "https://s-media-cache-ak0.pinimg.com/originals/c3/e5/25/c3e525a719eaa6ae0df486baa672391c.jpg",
-        "BaseStats" : {
-            "HP" : 35,
-            "Mana" : 30,
-            "Stamina" : 15
-        },
-        "Bio" : "An entity of the void, conceived by reality.",
-        "CharName" : "Voigos",
-        "Gold" : 100,
-        "HomeTownID" : "172967919700017152",
-        "Last_Played" : "Never",
-        "Level" : 1,
-        "Location" : {
-            "X" : 1001,
-            "Y" : 1001
-        },
-        "Race" : "Sorcerer",
-        "Sessions" : 0,
-        "User" : "VoidFletcher"
-    },
     "172263706649034752" : {
         "Avatar" : "https://s-media-cache-ak0.pinimg.com/originals/c3/e5/25/c3e525a719eaa6ae0df486baa672391c.jpg",
         "BaseStats" : {
@@ -27,144 +6,18 @@
             "Mana" : 30,
             "Stamina" : 15
         },
-        "Bio" : "Hot ass titties",
+        "Bio" : "Above Us All",
         "CharName" : "Rizen",
         "Gold" : 100,
         "HomeTownID" : "301474329651052545",
         "Last_Played" : "Never",
         "Level" : 1,
         "Location" : {
-            "X" : 1001,
-            "Y" : 1001
+            "X" : 0,
+            "Y" : -9
         },
         "Race" : "Sorcerer",
         "Sessions" : 0,
         "User" : "ThePheonixGuy"
-    },
-    "172263741360963585" : {
-        "Avatar" : "https://pbs.twimg.com/media/CZs3k7DWcAUv4v2.jpg",
-        "BaseStats" : {
-            "HP" : 40,
-            "Mana" : 15,
-            "Stamina" : 20
-        },
-        "Bio" : "How fast am I? Fast as fuck boi! #FabioIsMySpiritAnimal",
-        "CharName" : "AlphaFuckBoi",
-        "Gold" : 100,
-        "HomeTownID" : "172967919700017152",
-        "Last_Played" : "Never",
-        "Level" : 1,
-        "Location" : {
-            "X" : 1001,
-            "Y" : 1001
-        },
-        "Race" : "Rogue",
-        "Sessions" : 0,
-        "User" : "EnixEriz"
-    },
-    "192307058555486208" : {
-        "Avatar" : "https://s-media-cache-ak0.pinimg.com/736x/8c/2b/da/8c2bdafd9c5c5b2ec38b81741aa5e879.jpg",
-        "BaseStats" : {
-            "HP" : 40,
-            "Mana" : 15,
-            "Stamina" : 20
-        },
-        "Bio" : "One with Darkness as he is with rainbows",
-        "CharName" : "Shadow Hugger",
-        "Gold" : 100,
-        "HomeTownID" : "172967919700017152",
-        "Last_Played" : "Never",
-        "Level" : 1,
-        "Location" : {
-            "X" : 1001,
-            "Y" : 1001
-        },
-        "Race" : "Rogue",
-        "Sessions" : 0,
-        "User" : "Krazysh01"
-    },
-    "285565602335293440" : {
-        "Avatar" : "https://s-media-cache-ak0.pinimg.com/736x/77/02/6b/77026b08f33fb0b4a35434553c4fccc8.jpg",
-        "BaseStats" : {
-            "HP" : 50,
-            "Mana" : 10,
-            "Stamina" : 30
-        },
-        "Bio" : "Smash, becky",
-        "CharName" : "Slasher",
-        "Gold" : 100,
-        "HomeTownID" : "312912601699057675",
-        "Last_Played" : "Never",
-        "Level" : 1,
-        "Location" : {
-            "X" : 1001,
-            "Y" : 1001
-        },
-        "Race" : "Warrior",
-        "Sessions" : 0,
-        "User" : "ThePheonix2321"
-    },
-    "286879274969989120" : {
-        "Avatar" : "https://s-media-cache-ak0.pinimg.com/736x/8c/2b/da/8c2bdafd9c5c5b2ec38b81741aa5e879.jpg",
-        "BaseStats" : {
-            "HP" : 40,
-            "Mana" : 15,
-            "Stamina" : 20
-        },
-        "Bio" : "Dumble was once a great wizard with amazing powers until he fell inlove with a dark wizard who wanted to rid the world of muggles in an epic battle dumble managed to kill his beloved sister and he has sworn revenge in the only way he knows how with bows and shit - Micheal bay",
-        "CharName" : "Dumble",
-        "Gold" : 100,
-        "HomeTownID" : "172967919700017152",
-        "Last_Played" : "Never",
-        "Level" : 1,
-        "Location" : {
-            "X" : 1001,
-            "Y" : 1001
-        },
-        "Race" : "Rogue",
-        "Sessions" : 0,
-        "User" : "Dumble Doge"
-    },
-    "294353808673472512" : {
-        "Avatar" : "http://i.lv3.hbo.com/assets/images/documentaries/beware-the-slenderman/beware-the-slenderman-1920.jpg",
-        "BaseStats" : {
-            "HP" : 35,
-            "Mana" : 30,
-            "Stamina" : 15
-        },
-        "Bio" : "He's that long fellow",
-        "CharName" : "SlendarMan",
-        "Gold" : 100,
-        "HomeTownID" : "172967919700017152",
-        "Last_Played" : "Never",
-        "Level" : 1,
-        "Location" : {
-            "X" : 1001,
-            "Y" : 1001
-        },
-        "Race" : "Sorcerer",
-        "Sessions" : 0,
-        "User" : "mattebbit"
-    },
-    "297273739807031297" : {
-        "Avatar" : "",
-        "BaseStats" : {
-            "HP" : 50,
-            "Mana" : 10,
-            "Stamina" : 30
-        },
-        "Bio" : "I am a bitch ass dumb cunt who thinks flaming is histerical",
-        "CharName" : "Whore",
-        "Gold" : 100,
-        "HomeTownID" : "172967919700017152",
-        "Last_Played" : "Never",
-        "Level" : 1,
-        "Location" : {
-            "X" : 1001,
-            "Y" : 1001
-        },
-        "Race" : "Warrior",
-        "Sessions" : 0,
-        "User" : "Asdamar"
     }
 }

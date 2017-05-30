@@ -8,13 +8,13 @@
             "Timms",
             "Gate"
         ],
-        "Created_At" : "Mon May 29 00:27:47 2017",
+        "Created_At" : "Tue May 30 23:16:27 2017",
         "Description" : "Seems like a pretty small town. Everything is circular in fashion, with everything centered around an old, dirty fountain",
         "Level" : 1,
         "Location" : {
-            "X" : 1,
-            "Y" : 1
+            "X" : 0,
+            "Y" : -9
         },
-        "Town_Name" : "Wasteland Outpost"
+        "Town_Name" : "Wasteland Retreat"
     }
 }

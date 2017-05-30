@@ -154,7 +154,7 @@
         "NPC_Type" : ["Normal","Fire","Ghosts"]
     },
     "Old_Town" : {
-        "Name" : "",
+        "Name" : "Old_Town",
         "Where" : "",
         "Areas" : [],
         "Survey": ["an empty plain", "A large field"],
