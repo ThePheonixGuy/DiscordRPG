@@ -1,1 +1,32 @@
-{}
+{
+    "2" : {
+        "2" : {
+            "Name" : "Stone",
+            "Stone" : {
+                "Areas" : [],
+                "Arrive" : "",
+                "Distance" : 1,
+                "Founding_Player" : "Rizen",
+                "Leave" : "",
+                "Level" : 1,
+                "Location" : {
+                    "X" : 2,
+                    "Y" : 2
+                },
+                "Main_Element" : "stone",
+                "MovementMod" : 1,
+                "NPC_Difficulty" : 1,
+                "NPC_Type" : [
+                    "Normal"
+                ],
+                "Name" : "Stone",
+                "SpawnRate" : 1,
+                "Survey" : [
+                    "Rocky Spurs",
+                    "A large field"
+                ],
+                "Where" : "in a stone plain"
+            }
+        }
+    }
+}

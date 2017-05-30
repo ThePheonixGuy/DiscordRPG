@@ -718,77 +718,124 @@ class Map:
         #TODO implement multiple selections based off distance. ie lvl 4 to 6.
         if dist < 5:
             #level 1
-            tile = random.choice(list(tile_info["01"]))
-            tile_dict = tile_info['01'][tile]
+            level_list = []
+            first_level = tile_info['01']
+            for tile in first_level:
+                level_list.append(tile)
+            print(level_list)
+
+            tile = random.choice(level_list)
+            tile_dict = tile_details[tile]
             tile_details = {"Name" : tile, tile : tile_dict}
             tile_details[tile]["Location"] = {'X' : location['X'], 'Y' : location['Y']}
             tile_details[tile]["Distance"] = dist
             tile_details[tile]["Founding_Player"] = player_record["CharName"]
-            print(tile_details)
+
 
         elif dist < 10:
             #level 2
-            tile = random.choice(list(tile_info["02"]))
-            tile_dict = tile_info['02'][tile]
+            level_list = []
+            first_level = tile_info['01']
+            for tile in first_level:
+                level_list.append(tile)
+            second_level = tile_info['02']
+            for tile in second_level:
+                level_list.append(tile)
+            print(level_list)
+
+            tile = random.choice(level_list)
+            tile_dict = tile_details[tile]
             tile_details = {"Name" : tile, tile : tile_dict}
             tile_details[tile]["Location"] = {'X' : location['X'], 'Y' : location['Y']}
             tile_details[tile]["Distance"] = dist
             tile_details[tile]["Founding_Player"] = player_record["CharName"]
-            print(tile_details)
             
         elif dist < 15:
             #level 3
-            tile = random.choice(list(tile_info["03"]))
-            tile_dict = tile_info['03'][tile]
+            level_list = []
+            first_level = tile_info['01']
+            for tile in first_level:
+                level_list.append(tile)
+            second_level = tile_info['02']
+            for tile in second_level:
+                level_list.append(tile)
+            third_level = tile_info['03']
+            for tile in third_level:
+                level_list.append(tile)
+            print(level_list)
+
+            tile = random.choice(level_list)
+            tile_dict = tile_details[tile]
             tile_details = {"Name" : tile, tile : tile_dict}
             tile_details[tile]["Location"] = {'X' : location['X'], 'Y' : location['Y']}
             tile_details[tile]["Distance"] = dist
             tile_details[tile]["Founding_Player"] = player_record["CharName"]
-            print(tile_details)
             
         elif dist < 20:
             #level 4
-            tile = random.choice(list(tile_info["04"]))
-            tile_dict = tile_info['04'][tile]
+            level_list = []
+            first_level = tile_info['02']
+            for tile in first_level:
+                level_list.append(tile)
+            second_level = tile_info['03']
+            for tile in second_level:
+                level_list.append(tile)
+            third_level = tile_info['04']
+            for tile in third_level:
+                level_list.append(tile)
+            print(level_list)
+
+            tile = random.choice(level_list)
+            tile_dict = tile_details[tile]
             tile_details = {"Name" : tile, tile : tile_dict}
             tile_details[tile]["Location"] = {'X' : location['X'], 'Y' : location['Y']}
             tile_details[tile]["Distance"] = dist
             tile_details[tile]["Founding_Player"] = player_record["CharName"]
-            print(tile_details)
             
         elif dist < 25:
             #level 5
-            tile = random.choice(list(tile_info["05"]))
-            tile_dict = tile_info['05'][tile]
+            level_list = []
+            first_level = tile_info['04']
+            for tile in first_level:
+                level_list.append(tile)
+            second_level = tile_info['05']
+            for tile in second_level:
+                level_list.append(tile)
+            third_level = tile_info['06']
+            for tile in third_level:
+                level_list.append(tile)
+
+            print(level_list)
+
+            tile = random.choice(level_list)
+            print(tile)
+            tile_dict = tile_details[tile]
             tile_details = {"Name" : tile, tile : tile_dict}
             tile_details[tile]["Location"] = {'X' : location['X'], 'Y' : location['Y']}
             tile_details[tile]["Distance"] = dist
             tile_details[tile]["Founding_Player"] = player_record["CharName"]
-            print(tile_details)
             
         elif dist >= 25:
             #level 6+
             #data structure changed. Import a second json, tiledetails.json
             level_list = []
-            first_level = list(tile_info['04'])
+            first_level = tile_info['04']
             for tile in first_level:
                 level_list.append(tile)
-            second_level = list(tile_info['05'])
+            second_level = tile_info['05']
             for tile in second_level:
                 level_list.append(tile)
-            first_level = list(tile_info['04'])
-            for tile in first_level:
+            third_level = tile_info['06']
+            for tile in third_level:
                 level_list.append(tile)
-            
+            print(level_list)
+
             tile = random.choice(level_list)
-            print(tile)
-            tile_dict = tile_info['06'][tile]
+            tile_dict = tile_details[tile]
             tile_details = {"Name" : tile, tile : tile_dict}
             tile_details[tile]["Location"] = {'X' : location['X'], 'Y' : location['Y']}
             tile_details[tile]["Distance"] = dist
-            tile_details[tile]["Founding_Player"] = player_record["CharName"]
-            print(tile_details)
-            
+            tile_details[tile]["Founding_Player"] = player_record["CharName"]       
 
         #TODO refine the required elements and pull them correctly.
         #save tile to map.
