@@ -173,6 +173,13 @@ class DiscordRPG:
         tile = await self.map.find_tile(tile_type)
         await self.bot.say(tile)
 
+    @rpg.command(pass_context = True, no_pm = False)
+    async def viewsurrounds(self,ctx, loc_x:int,loc_y:int):
+        location={'X': loc_x,'Y':loc_y}
+        user = ctx.message.author
+
+        await self.map.get_surrounds(user,location)
+
     @rpg.command(pass_context=True, no_pm=False)
     async def viewplayer(self, ctx, user: discord.Member):
         """Allows you to see the character sheet of another player in the game."""
@@ -697,91 +704,114 @@ class Map:
             tile_info = dataIO.load_json("data/discordrpg/tiletypes.json")
         except:
             raise RuntimeError("Tile type data is corrupt. Please reload it")
+        try:
+            tile_details = dataIO.load_json("data/discordrpg/tiledetails.json")
+        except:
+            raise RuntimeError("Tile type data is corrupt. Please reload it")
 
+        tile = None
+        #logic and choose tile and save it.
+        dist = await self.get_distance_from_home(user, location)
+        print(dist)
+        player_record = await self.player.get_player_records(user.id)
+        #choose tile by level
+        #TODO implement multiple selections based off distance. ie lvl 4 to 6.
+        if dist < 5:
+            #level 1
+            tile = random.choice(list(tile_info["01"]))
+            tile_dict = tile_info['01'][tile]
+            tile_details = {"Name" : tile, tile : tile_dict}
+            tile_details[tile]["Location"] = {'X' : location['X'], 'Y' : location['Y']}
+            tile_details[tile]["Distance"] = dist
+            tile_details[tile]["Founding_Player"] = player_record["CharName"]
+            print(tile_details)
 
-        if not await self.check_tile(location):
-            tile = None
-            #logic and choose tile and save it.
-            dist = await self.get_distance_from_home(user, location)
-            print(dist)
-            player_record = await self.player.get_player_records(user.id)
-            #choose tile by level
-            #TODO implement multiple selections based off distance. ie lvl 4 to 6.
-            if dist < 5:
-                #level 1
-                tile = random.choice(list(tile_info["01"]))
-                tile = {tile : tile_info['01'][tile]}
-                tile[tile_info['01'][tile]]["Location"] = lcoation
-                tile[tile_info['01'][tile]]["Distance"] = dist
-                tile[tile_info['01'][tile]]["Founding_Player"] = player_record["CharName"]
-                print(tile)
+        elif dist < 10:
+            #level 2
+            tile = random.choice(list(tile_info["02"]))
+            tile_dict = tile_info['02'][tile]
+            tile_details = {"Name" : tile, tile : tile_dict}
+            tile_details[tile]["Location"] = {'X' : location['X'], 'Y' : location['Y']}
+            tile_details[tile]["Distance"] = dist
+            tile_details[tile]["Founding_Player"] = player_record["CharName"]
+            print(tile_details)
+            
+        elif dist < 15:
+            #level 3
+            tile = random.choice(list(tile_info["03"]))
+            tile_dict = tile_info['03'][tile]
+            tile_details = {"Name" : tile, tile : tile_dict}
+            tile_details[tile]["Location"] = {'X' : location['X'], 'Y' : location['Y']}
+            tile_details[tile]["Distance"] = dist
+            tile_details[tile]["Founding_Player"] = player_record["CharName"]
+            print(tile_details)
+            
+        elif dist < 20:
+            #level 4
+            tile = random.choice(list(tile_info["04"]))
+            tile_dict = tile_info['04'][tile]
+            tile_details = {"Name" : tile, tile : tile_dict}
+            tile_details[tile]["Location"] = {'X' : location['X'], 'Y' : location['Y']}
+            tile_details[tile]["Distance"] = dist
+            tile_details[tile]["Founding_Player"] = player_record["CharName"]
+            print(tile_details)
+            
+        elif dist < 25:
+            #level 5
+            tile = random.choice(list(tile_info["05"]))
+            tile_dict = tile_info['05'][tile]
+            tile_details = {"Name" : tile, tile : tile_dict}
+            tile_details[tile]["Location"] = {'X' : location['X'], 'Y' : location['Y']}
+            tile_details[tile]["Distance"] = dist
+            tile_details[tile]["Founding_Player"] = player_record["CharName"]
+            print(tile_details)
+            
+        elif dist >= 25:
+            #level 6+
+            #data structure changed. Import a second json, tiledetails.json
+            level_list = []
+            first_level = list(tile_info['04'])
+            for tile in first_level:
+                level_list.append(tile)
+            second_level = list(tile_info['05'])
+            for tile in second_level:
+                level_list.append(tile)
+            first_level = list(tile_info['04'])
+            for tile in first_level:
+                level_list.append(tile)
+            
+            tile = random.choice(level_list)
+            print(tile)
+            tile_dict = tile_info['06'][tile]
+            tile_details = {"Name" : tile, tile : tile_dict}
+            tile_details[tile]["Location"] = {'X' : location['X'], 'Y' : location['Y']}
+            tile_details[tile]["Distance"] = dist
+            tile_details[tile]["Founding_Player"] = player_record["CharName"]
+            print(tile_details)
+            
 
-            elif dist < 10:
-                #level 2
-                tile = random.choice(list(tile_info["02"]))
-                tile = {tile : tile_info['02'][tile]}
-                tile["Distance"] = dist
-                tile["Founding_Player"] = player_record["CharName"]
-                print(tile)
-                
-            elif dist < 15:
-                #level 3
-                tile = random.choice(list(tile_info["03"]))
-                tile = {tile : tile_info['03'][tile]}
-                tile["Distance"] = dist
-                tile["Founding_Player"] = player_record["CharName"]
-                print(tile)
-                
-            elif dist < 20:
-                #level 4
-                tile = random.choice(list(tile_info["04"]))
-                tile = {tile : tile_info['04'][tile]}
-                tile["Distance"] = dist
-                tile["Founding_Player"] = player_record["CharName"]
-                print(tile)
-                
-            elif dist < 25:
-                #level 5
-                tile = random.choice(list(tile_info["05"]))
-                tile = {tile : tile_info['05'][tile]}
-                tile["Distance"] = dist
-                tile["Founding_Player"] = player_record["CharName"]
-                print(tile)
-                
-            elif dist >= 25:
-                #level 6
-                tile = random.choice(list(tile_info["06"]))
-                tile = {tile : tile_info['06'][tile]}
-                tile["Distance"] = dist
-                tile["Founding_Player"] = player_record["CharName"]
-                print(tile)
-                
-
-            #TODO refine the required elements and pull them correctly.
-            #save tile to map.
-            x = str(location['X'])
-            y = str(location['Y'])
-            try:
-                oldmap_at_x = self.fieldmap[x]
-            except:
-                self.fieldmap[x] = {}
-            self.fieldmap[x][y] = tile 
-            self.savemap()
-            #await self.reload_map()
-            return tile
-        else:
-            return self.get_tile_records(user, location)
+        #TODO refine the required elements and pull them correctly.
+        #save tile to map.
+        x = str(location['X'])
+        y = str(location['Y'])
+        try:
+            oldmap_at_x = self.fieldmap[x]
+        except:
+            self.fieldmap[x] = {}
+        self.fieldmap[x][y] = tile_details 
+        self.savemap()
+        #await self.reload_map()
+        return tile
 
 
     async def map_provider(self, user, location):
-        # TODO fix key errors? XD
         tileRecord = await self.get_tile_records(user, location)
         if tileRecord is None:
             tileRecord = await self.map_generator(user, location)
         return tileRecord
 
     async def get_distance_from_home(self, user, location):
-        """def for returning the distance from home, because of how impotrant this is"""
+        """def for returning the distance from home, because of how important this is"""
         locX = location['X']
         locY = location['Y']
         player_record = await self.player.get_player_records(user.id)
@@ -802,7 +832,42 @@ class Map:
         # checks self.fieldmap for all nine tiles around it, be
         # x;y, x;y+, x;y-, x+;y, x+;y+, x+;y-, x-:y, x-;y+, x-;y-
         # ^^ nine tiles. pass and call for each option to the map provider.
-        pass  # TODO SOON for now.
+        # TODO SOON for now.
+        x = location['X']
+        y = location['Y']
+        north = {'X': x , 'Y': (y + 1) ,}
+        north_tile = await self.map_provider(user, north)
+        print(north_tile)
+
+        north_east = {'X': (x +1) , 'Y': (y+1) ,}
+        north_east_tile = await self.map_provider(user, north_east)
+        print(north_east_tile)
+
+        east = {'X': (x+1) , 'Y': y ,}
+        east_tile = await self.map_provider(user, east)
+        print(east_tile)
+
+        south_east = {'X': (x+1) , 'Y': (y-1) ,}
+        south_east_tile = await self.map_provider(user, south_east)
+        print(south_east_tile)
+
+        south = {'X': x , 'Y': (y-1) ,}
+        south_tile = await self.map_provider(user, south)
+        print(south_tile)
+
+        south_west = {'X': (x-1) , 'Y': (y-1) ,}
+        south_west_tile = await self.map_provider(user, south_west)
+        print(south_west_tile)
+
+        west = {'X': (x-1) , 'Y': y ,}
+        west_tile = await self.map_provider(user, west)
+        print(west_tile)
+
+        north_west = {'X': (x-1) , 'Y': (y+1) ,}
+        north_west_tile = await self.map_provider(user, north_west)
+        print(north_west_tile)
+
+
 
     async def check_tile(self, location):
         """ takes the give location and checks if its in fieldmap"""
@@ -1000,7 +1065,7 @@ def check_files():
 
     f = "data/discordrpg/map.json"
     if not dataIO.is_valid_json(f):
-        print("Creating empty towns.json...")
+        print("Creating empty map.json...")
         dataIO.save_json(f, {})
 
     f = "data/discordrpg/tiletypes.json"
