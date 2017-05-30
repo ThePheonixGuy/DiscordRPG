@@ -3,13 +3,13 @@
         "Avatar" : "",
         "Name" : "",
         "Info" : "",
-        "Disc" : ""
+        "Desc" : ""
     },
     "TownHall" : {
         "Avatar" : "https://c2.staticflickr.com/2/1518/24755699179_ef756f08f8_b.jpg",
         "Name" : "Town Hall",
         "Info" : "This is the Town Hall. The current mayor can start votes and make disisions here",
-        "Disc" : "From the outside the building is very large and looks sturdy able to hold all the villagers incase of a garrison. As you enter there is a woman sitting at the desk with pointed glasses She asks you Can i help you?"
+        "Desc" : "From the outside the building is very large and looks sturdy, able to hold all the villagers incase of a garrison."
     },
     "MarketPlace" : {
         "Avatar" : "https://s-media-cache-ak0.pinimg.com/originals/92/62/3f/92623fc8b548d7a0a64e9c2c0251bd64.jpg",
@@ -48,7 +48,7 @@
         "Avatar" : "http://orig05.deviantart.net/2073/f/2012/161/9/e/fantasy_tavern_interior_by_whatyoumaydo-d5313im.jpg",
         "Name" : "Generic Tavern",
         "Info" : "This is where you go to buy food and drink till you drop but dont worry there are beds too incase you want to sleep.",
-        "Desc" : "As you approch the building all you hear is loud chatter and the chering sound of music and people dancing. the smell of alcahol courses through the air."
+        "Desc" : "As you approch the building all you hear is loud chatter and the chering sound of music and people dancing. the smell of alcohol hangs in the air surrounding it."
     },
     "Gate" : {
         "Avatar" : "https://s-media-cache-ak0.pinimg.com/originals/cf/48/25/cf4825f7e3b091f8c91161944fa510b3.jpg",
@@ -60,7 +60,7 @@
         "Avatar" : "https://s-media-cache-ak0.pinimg.com/originals/e6/71/ee/e671ee4fbb7ad2339be802d54585df8a.jpg",
         "Name" : "Fountain",
         "Info" : "Has a Dirtied out plaque underneath it, barely readable. Still covered in Algae.",
-        "Desc" : "There are buildings in a square all arround the fountain. You see the glittering coins at the bottom of the fountain"
+        "Desc" : "There are buildings in a circle all arround the fountain. You see the glittering coins at the bottom of the fountain"
     },
     "Timms" : {
         "Avatar" : "https://s-media-cache-ak0.pinimg.com/originals/25/c8/a6/25c8a6e285695aeb2ba08c4ad91edf39.jpg",

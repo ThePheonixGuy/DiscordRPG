@@ -5,6 +5,7 @@ import aiohttp
 from cogs.utils.dataIO import dataIO
 import requests
 import os
+import json
 
 class Interpretter:
     """API.ai Interpretter Cog"""
@@ -12,13 +13,14 @@ class Interpretter:
     def __init__(self, bot):
         self.bot = bot
         self.API_URL = "https://api.api.ai/v1/"
-        self.session = 12345
+        self.session = 1234    
         self.responses = dataIO.load_json("data/interpretter/output.json")
+        self.logged_users = []
 
     @commands.command(pass_context = True)
     async def interpret(self, ctx, * , query_text):
-        await self.bot.send_typing(ctx.message.channel)
         """Attempts to interpret a query and provide a response."""
+        await self.bot.send_typing(ctx.message.channel)
         response = await self.search_responses(query_text)
         
         if response is not None:
@@ -29,23 +31,22 @@ class Interpretter:
 
     async def _interpret(self, args):
         headers = {
-            'Authorization' : 'Bearer {{token here}}' #TODO change to input-able key
+            'Authorization' : 'Bearer 9e64f7a6a64f4c7fbf3d495319b26851' #TODO change to input-able key
         }
         params = {'query' : args, 'lang' : 'en', 'sessionId' : self.session}
         queryapi = "{}query?v=20150910".format(self.API_URL)
 
         async with aiohttp.get(queryapi, headers = headers, params = params) as response:
             r = await response.json()
+            f = "data/interpretter/lastresponse.json"
+            dataIO.save_json(f, r)
             try:
                 stripped_r = self.response_stripper(r)
             except KeyError as e:
-                print(e)
+                print("This happened: {}".format(e))
                 return None
 
             return stripped_r
-
-            
-
         # for rpg commands, use custom payloads. they will be contained in output['result']['fulfillment']['messages'][1][]
 
     def response_stripper(self, response):
@@ -94,26 +95,50 @@ class Interpretter:
         if stripped_r == None:
             # call down stack to the interpreter
             stripped_r = await self._interpret(args)
-            
+        #if the call is still none, it failed. 
+        # TODO for.rpg add appropriate handler to reask
+        if stripped_r == None:
+            return None
 
         return self.create_message(stripped_r)
 
 
     async def checkmention(self, message):
-        if message.channel.id == "301474329651052545":
+        if message.author.id == self.bot.user.id:
+            return
+        args = message.content
+        if len(message.mentions) > 0:
+            if message.mentions[0].id == self.bot.user.id:
+                if message.channel.id == "301474329651052545":
+                    if message.author.id not in self.logged_users:
+                        self.logged_users.append(message.author.id)
+                        await self.bot.send_message(message.channel, "Yay! Welcome Back. Lets chat. From here on, you dont need to mention me, I'm all ears.\nUse `goodbye` to let me know you're leaving!")
+                        word_list = message.content.split()
+                        word_list = word_list[1:]
+                        args = " ".join(word_list)
 
-            if message.author.id != self.bot.user.id:
-                await self.bot.send_typing(message.channel)
-                #word_list = message.content.split()
-                #word_list = word_list[1:]
-                #args = " ".join(word_list)
-                args = message.content
-                response = await self._interpret(args)
-                if not response:
-                    #rejected message.
+        if message.author.id in self.logged_users:
+            if message.channel.id == "301474329651052545":
+                print("Running on user query from {}".format(message.author.id))
+                #TODO Change the following to a check_action method.
+                if "goodbye" in message.content.lower():
+                    print(message.author.id)
+                    print(self.logged_users)
+                    self.logged_users.remove(message.author.id)
+                    await self.bot.send_message(message.channel, "It's been good while its been going. Thanks! ")
                     return
 
-                await self.bot.send_message(message.channel, response)
+                await self.bot.send_typing(message.channel)
+                response = await self.search_responses(args)
+                
+                if response is not None:
+                    await self.bot.send_message(message.channel, response)
+                else:
+                    print("No matched response")
+                    return
+
+        
+       
 
     def save_output(self, file):
         f = "data/interpretter/output.json"
@@ -134,6 +159,6 @@ def setup(bot):
     check_folders()
     check_files()
     n = Interpretter(bot)
-    #bot.add_listener(n.checkmention, "on_message")
+    bot.add_listener(n.checkmention, "on_message")
     bot.add_cog(n)
 
