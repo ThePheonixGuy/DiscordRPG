@@ -401,7 +401,17 @@ class DiscordRPG:
                 return
             elif '1' in response.content:
                 surrounds = await self.map.get_surrounds(user, location)
-                await self.bot.say(surrounds)
+                #TODO Now CUT down. All tiles around are too much detail. Provide a basic for each.
+                await self.bot.say(surrounds["North"])
+
+    async def survey_landscape(self, ctx, user, current_player, option, location):
+        surrounds = await self.map.get_surrounds(user, location)
+        header = [] #two value, tile and desc.
+        option = [] #option list to go with it.
+        em1 = await self.embed_builder(ctx, current_player, header, option)
+        # stuff to create the pretty embed.
+        return em1
+
 
     async def reload_town_records(self):
         self.town = Town(self.bot, self.player, "data/discordrpg/towns.json")
@@ -944,35 +954,27 @@ class Map:
         y = location['Y']
         north = {'X': x , 'Y': (y + 1) ,}
         north_tile = await self.map_provider(user, north)
-        print(north_tile)
 
         north_east = {'X': (x +1) , 'Y': (y+1) ,}
         north_east_tile = await self.map_provider(user, north_east)
-        print(north_east_tile)
 
         east = {'X': (x+1) , 'Y': y ,}
         east_tile = await self.map_provider(user, east)
-        print(east_tile)
 
         south_east = {'X': (x+1) , 'Y': (y-1) ,}
         south_east_tile = await self.map_provider(user, south_east)
-        print(south_east_tile)
 
         south = {'X': x , 'Y': (y-1) ,}
         south_tile = await self.map_provider(user, south)
-        print(south_tile)
 
         south_west = {'X': (x-1) , 'Y': (y-1) ,}
         south_west_tile = await self.map_provider(user, south_west)
-        print(south_west_tile)
 
         west = {'X': (x-1) , 'Y': y ,}
         west_tile = await self.map_provider(user, west)
-        print(west_tile)
 
         north_west = {'X': (x-1) , 'Y': (y+1) ,}
         north_west_tile = await self.map_provider(user, north_west)
-        print(north_west_tile)
 
         surrounds = {
             "North" : north_tile,
@@ -984,6 +986,8 @@ class Map:
             "South East" : south_east_tile,
             "South West" : south_west_tile
         }
+
+        print(surrounds)
 
         return surrounds
 

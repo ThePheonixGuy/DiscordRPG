@@ -19,5 +19,26 @@
         "Race" : "Sorcerer",
         "Sessions" : 0,
         "User" : "ThePheonixGuy"
+    },
+    "238384532544290836" : {
+        "Avatar" : "https://s-media-cache-ak0.pinimg.com/736x/8c/2b/da/8c2bdafd9c5c5b2ec38b81741aa5e879.jpg",
+        "BaseStats" : {
+            "HP" : 40,
+            "Mana" : 15,
+            "Stamina" : 20
+        },
+        "Bio" : "he jumped and won",
+        "CharName" : "glazz",
+        "Gold" : 100,
+        "HomeTownID" : "301474329651052545",
+        "Last_Played" : "Never",
+        "Level" : 1,
+        "Location" : {
+            "X" : 0,
+            "Y" : -9
+        },
+        "Race" : "Rogue",
+        "Sessions" : 0,
+        "User" : "Demon2468god"
     }
 }
