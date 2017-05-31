@@ -1,5 +1,119 @@
 {
+    "-1" : {
+        "-7" : {
+            "Grassland" : {
+                "Areas" : [],
+                "Arrive" : "A wide swath of open Grassland",
+                "Distance" : 2,
+                "Founding_Player" : "Rizen",
+                "Leave" : "As you clear the shruberry you see before you",
+                "Level" : 1,
+                "Location" : {
+                    "X" : -1,
+                    "Y" : -7
+                },
+                "Main_Element" : "grass",
+                "MovementMod" : 1,
+                "NPC_Difficulty" : 1,
+                "NPC_Type" : [
+                    "Normal"
+                ],
+                "Name" : "Grassland",
+                "SpawnRate" : 1,
+                "Survey" : [
+                    "An empty plain of grass stretching towards the horizon",
+                    "A large open field filled with grass and little else"
+                ],
+                "Where" : "in a grassland"
+            },
+            "Name" : "Grassland"
+        },
+        "-8" : {
+            "Cave" : {
+                "Areas" : [],
+                "Arrive" : "",
+                "Distance" : 1,
+                "Founding_Player" : "Rizen",
+                "Leave" : "",
+                "Level" : 1,
+                "Location" : {
+                    "X" : -1,
+                    "Y" : -8
+                },
+                "Main_Element" : "cave",
+                "MovementMod" : 1,
+                "NPC_Difficulty" : 1,
+                "NPC_Type" : [
+                    "Normal"
+                ],
+                "Name" : "Cave",
+                "SpawnRate" : 1,
+                "Survey" : [
+                    "an empty plain",
+                    "A large field"
+                ],
+                "Where" : "in a damp dark cave"
+            },
+            "Name" : "Cave"
+        },
+        "-9" : {
+            "Grassland" : {
+                "Areas" : [],
+                "Arrive" : "A wide swath of open Grassland",
+                "Distance" : 1,
+                "Founding_Player" : "Rizen",
+                "Leave" : "As you clear the shruberry you see before you",
+                "Level" : 1,
+                "Location" : {
+                    "X" : -1,
+                    "Y" : -9
+                },
+                "Main_Element" : "grass",
+                "MovementMod" : 1,
+                "NPC_Difficulty" : 1,
+                "NPC_Type" : [
+                    "Normal"
+                ],
+                "Name" : "Grassland",
+                "SpawnRate" : 1,
+                "Survey" : [
+                    "An empty plain of grass stretching towards the horizon",
+                    "A large open field filled with grass and little else"
+                ],
+                "Where" : "in a grassland"
+            },
+            "Name" : "Grassland"
+        }
+    },
     "0" : {
+        "-7" : {
+            "Name" : "Stone",
+            "Stone" : {
+                "Areas" : [],
+                "Arrive" : "",
+                "Distance" : 2,
+                "Founding_Player" : "Rizen",
+                "Leave" : "",
+                "Level" : 1,
+                "Location" : {
+                    "X" : 0,
+                    "Y" : -7
+                },
+                "Main_Element" : "stone",
+                "MovementMod" : 1,
+                "NPC_Difficulty" : 1,
+                "NPC_Type" : [
+                    "Normal"
+                ],
+                "Name" : "Stone",
+                "SpawnRate" : 1,
+                "Survey" : [
+                    "Rocky Spurs",
+                    "A large field"
+                ],
+                "Where" : "in a stone plain"
+            }
+        },
         "-8" : {
             "Grassland" : {
                 "Areas" : [],
@@ -54,6 +168,93 @@
                 ],
                 "Where" : ""
             }
+        }
+    },
+    "1" : {
+        "-7" : {
+            "Cave" : {
+                "Areas" : [],
+                "Arrive" : "",
+                "Distance" : 2,
+                "Founding_Player" : "Rizen",
+                "Leave" : "",
+                "Level" : 1,
+                "Location" : {
+                    "X" : 1,
+                    "Y" : -7
+                },
+                "Main_Element" : "cave",
+                "MovementMod" : 1,
+                "NPC_Difficulty" : 1,
+                "NPC_Type" : [
+                    "Normal"
+                ],
+                "Name" : "Cave",
+                "SpawnRate" : 1,
+                "Survey" : [
+                    "an empty plain",
+                    "A large field"
+                ],
+                "Where" : "in a damp dark cave"
+            },
+            "Name" : "Cave"
+        },
+        "-8" : {
+            "Name" : "Stone",
+            "Stone" : {
+                "Areas" : [],
+                "Arrive" : "",
+                "Distance" : 1,
+                "Founding_Player" : "Rizen",
+                "Leave" : "",
+                "Level" : 1,
+                "Location" : {
+                    "X" : 1,
+                    "Y" : -8
+                },
+                "Main_Element" : "stone",
+                "MovementMod" : 1,
+                "NPC_Difficulty" : 1,
+                "NPC_Type" : [
+                    "Normal"
+                ],
+                "Name" : "Stone",
+                "SpawnRate" : 1,
+                "Survey" : [
+                    "Rocky Spurs",
+                    "A large field"
+                ],
+                "Where" : "in a stone plain"
+            }
+        },
+        "-9" : {
+            "Forest" : {
+                "Areas" : [],
+                "Arrive" : "",
+                "Distance" : 1,
+                "Founding_Player" : "Rizen",
+                "Leave" : "",
+                "Level" : 1,
+                "Location" : {
+                    "X" : 1,
+                    "Y" : -9
+                },
+                "Main_Element" : "",
+                "MovementMod" : 2,
+                "NPC_Difficulty" : 1,
+                "NPC_Type" : [
+                    "Normal",
+                    "Nature"
+                ],
+                "Name" : "Forest",
+                "SpawnRate" : 5,
+                "Survey" : [
+                    "an empty plain",
+                    "A large field"
+                ],
+                "Where" : "in a forest"
+            },
+            "Name" : "Forest"
         }
     }
 }

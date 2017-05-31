@@ -1,6 +1,6 @@
 {
     "0001" : {
-         "Name: ": "Young brown Wolf",
+         "Name: ": "Young Red Fox",
          "Level" : 1,
          "NPC_Difficulty:" : 1,
          "Type" : "Normal",
@@ -28,7 +28,6 @@
          "Speed": 110,
          "Attack.Range" : 40
     },
-
     "0002" : {
          "Name:": "Brown Fox",
          "Level": 1,
@@ -37,28 +36,11 @@
          "Exp" : 37 ,
          "HP": 48,
          "P.Attack": 8,
-          "Attack": {
-            "Bite" : {
-                "Type" : "Melee",
-                "DMG" : "9",
-                "DMG_Type" : "Normal"
-            },
-            "Spit" : {
-                "Type" : "Ranged",
-                "DMG" : "9",
-                "DMG_Type" : "Poison"
-            },
-            "Growl" : {
-                "Type" : "Magic",
-                "DMG" : "2",
-                "DMG_Type" : "Fear"
-            }
-        },
-        "M.Attack": 7,
+         "Attack": "bite",
+         "M.Attack": 7,
          "Speed": 115,
          "Attack.Range" : 40
     },
-
     "0003" : {
         "Name:": "Elder Brown Fox",
         "Level" : 2,
@@ -67,57 +49,24 @@
         "EXP" : 70,
         "HP" : 55,
         "P.Attack":9,
-          "Attack": {
-            "Bite" : {
-                "Type" : "Melee",
-                "DMG" : "9",
-                "DMG_Type" : "Normal"
-            },
-            "Spit" : {
-                "Type" : "Ranged",
-                "DMG" : "6",
-                "DMG_Type" : "Poison"
-            },
-            "Growl" : {
-                "Type" : "Magic",
-                "DMG" : "2",
-                "DMG_Type" : "Fear"
-            }
-        },
+        "Attack": "bite",
         "M.Attack":9,
         "Speed":115,
         "Attack.Range" : 40
      },
      "0004" : {
-        "Name:": "Elder Brown Wolf",
+        "Name:": "Elder Brown Fox",
         "Level" : 2,
         "NPC_Difficulty:" : 1,
         "Type" : "Normal",
-        "EXP" : 80,
-        "HP" : 60,
-        "P.Attack":10,
-          "Attack": {
-            "Bite" : {
-                "Type" : "Melee",
-                "DMG" : "10",
-                "DMG_Type" : "Normal"
-            },
-            "Spit" : {
-                "Type" : "Ranged",
-                "DMG" : "6",
-                "DMG_Type" : "Poison"
-            },
-            "Growl" : {
-                "Type" : "Magic",
-                "DMG" : "3",
-                "DMG_Type" : "Fear"
-            }
-        },
+        "EXP" : 70,
+        "HP" : 55,
+        "P.Attack":9,
+        "Attack": "bite",
         "M.Attack":9,
         "Speed":115,
         "Attack.Range" : 40
      },
-
      "0005" : {
        "Name:" : "Timber Wolf",
        "Level" : 2,
@@ -126,26 +75,9 @@
        "EXP" : 85,
        "HP" : 62,
        "P.Attack" : 10,
-         "Attack": {
-            "Bite" : {
-                "Type" : "Melee",
-                "DMG" : "10",
-                "DMG_Type" : "Normal"
-            },
-            "Spit" : {
-                "Type" : "Ranged",
-                "DMG" : "10",
-                "DMG_Type" : "Poison"
-            },
-            "Growl" : {
-                "Type" : "Magic",
-                "DMG" : "5",
-                "DMG_Type" : "Fear"
-            }
-        },
-        "M.Attack" : 9,
+       "Attack" : "bite",
+       "M.Attack" : 9,
        "Speed" : 120,
        "Attack.Range" : 40
-
     }
 }

@@ -379,7 +379,7 @@ class DiscordRPG:
         location = player_town['Location']
         location['Y'] += 1
         tile = await self.map.get_tile_records(user, location)
-        current_player = self.player.update_location(user, location)
+        current_player = await self.player.update_location(user, location)
 
         option = self.default_options
         header = ["Title","Description"]
@@ -401,6 +401,7 @@ class DiscordRPG:
                 return
             elif '1' in response.content:
                 surrounds = await self.map.get_surrounds(user, location)
+                await self.bot.say(surrounds)
 
     async def reload_town_records(self):
         self.town = Town(self.bot, self.player, "data/discordrpg/towns.json")
@@ -984,7 +985,8 @@ class Map:
             "South West" : south_west_tile
         }
 
-        
+        return surrounds
+
 
 
 
