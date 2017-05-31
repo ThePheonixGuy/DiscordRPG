@@ -1,1 +1,59 @@
-{}
+{
+    "0" : {
+        "-8" : {
+            "Grassland" : {
+                "Areas" : [],
+                "Arrive" : "A wide swath of open Grassland",
+                "Distance" : 1,
+                "Founding_Player" : "Rizen",
+                "Leave" : "As you clear the shruberry you see before you",
+                "Level" : 1,
+                "Location" : {
+                    "X" : 0,
+                    "Y" : -8
+                },
+                "Main_Element" : "grass",
+                "MovementMod" : 1,
+                "NPC_Difficulty" : 1,
+                "NPC_Type" : [
+                    "Normal"
+                ],
+                "Name" : "Grassland",
+                "SpawnRate" : 1,
+                "Survey" : [
+                    "An empty plain of grass stretching towards the horizon",
+                    "A large open field filled with grass and little else"
+                ],
+                "Where" : "in a grassland"
+            },
+            "Name" : "Grassland"
+        },
+        "-9" : {
+            "Name" : "Wasteland Retreat",
+            "Wasteland Retreat" : {
+                "Areas" : [],
+                "Arrive" : "",
+                "Distance" : "",
+                "Founding_Player" : "",
+                "Leave" : "",
+                "Level" : 6,
+                "Location" : {
+                    "X" : 0,
+                    "Y" : -9
+                },
+                "Main_Element" : "",
+                "MovementMod" : 0,
+                "NPC_Difficulty" : 100,
+                "NPC_Type" : [
+                    "Human"
+                ],
+                "Name" : "Wasteland Retreat",
+                "SpawnRate" : 0,
+                "Survey" : [
+                    "A Recently rebuilt town."
+                ],
+                "Where" : ""
+            }
+        }
+    }
+}

@@ -1,70 +1,23 @@
 {
     "172263706649034752" : {
-        "Avatar" : "https://s-media-cache-ak0.pinimg.com/736x/77/02/6b/77026b08f33fb0b4a35434553c4fccc8.jpg",
+        "Avatar" : "https://s-media-cache-ak0.pinimg.com/originals/c3/e5/25/c3e525a719eaa6ae0df486baa672391c.jpg",
         "BaseStats" : {
-            "HP" : 50,
-            "Mana" : 10,
-            "Stamina" : 30
+            "HP" : 35,
+            "Mana" : 30,
+            "Stamina" : 15
         },
-        "Bio" : "Wutalotigot",
+        "Bio" : "Above Us All",
         "CharName" : "Rizen",
-        "CurrLocX" : 0,
-        "CurrLocY" : 0,
-        "Gold" : 100,
-        "HomeTownID" : "172967919700017152",
-        "Level" : 1,
-        "Race" : "Warrior",
-        "User" : "ThePheonixGuy"
-    },
-    "172263741360963585" : {
-        "Avatar" : "https://pbs.twimg.com/media/CZs3k7DWcAUv4v2.jpg",
-        "BaseStats" : {
-            "HP" : 40,
-            "Mana" : 15,
-            "Stamina" : 20
-        },
-        "Bio" : "How fast am I? I'm fast as fuck boi! #FabioIsMySpiritAnimal",
-        "CharName" : "AlphaFuckBoi",
-        "CurrLocX" : 0,
-        "CurrLocY" : 0,
-        "Gold" : 100,
-        "HomeTownID" : "172967919700017152",
-        "Level" : 1,
-        "Race" : "Rogue",
-        "User" : "EnixEriz"
-    },
-    "249263584465387520" : {
-        "Avatar" : "https://static.comicvine.com/uploads/scale_small/0/77/1099600-sf4_dan.jpg",
-        "BaseStats" : {
-            "HP" : 50,
-            "Mana" : 10,
-            "Stamina" : 30
-        },
-        "Bio" : "/\\_/\\\n\ud83d\ude26 \u00b0w\u00b0 )=\n  )   (  //\n (__ __)//",
-        "CharName" : "Guts",
-        "CurrLocX" : 0,
-        "CurrLocY" : 0,
         "Gold" : 100,
         "HomeTownID" : "301474329651052545",
+        "Last_Played" : "Never",
         "Level" : 1,
-        "Race" : "Warrior",
-        "User" : "Tumult"
-    },
-    "292305823021924352" : {
-        "Avatar" : "https://s-media-cache-ak0.pinimg.com/736x/8c/2b/da/8c2bdafd9c5c5b2ec38b81741aa5e879.jpg",
-        "BaseStats" : {
-            "HP" : 40,
-            "Mana" : 15,
-            "Stamina" : 20
+        "Location" : {
+            "X" : 0,
+            "Y" : -9
         },
-        "Bio" : "Born into the shadows, consumed by darkness.",
-        "CharName" : "Anatarir Nightclaw",
-        "CurrLocX" : 0,
-        "CurrLocY" : 0,
-        "Gold" : 100,
-        "HomeTownID" : "172967919700017152",
-        "Level" : 1,
-        "Race" : "Rogue",
-        "User" : "Hobbbit"
+        "Race" : "Sorcerer",
+        "Sessions" : 0,
+        "User" : "ThePheonixGuy"
     }
 }

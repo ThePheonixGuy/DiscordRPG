@@ -1,0 +1,71 @@
+{
+    "buildingName" : {
+        "Avatar" : "",
+        "Name" : "",
+        "Info" : "",
+        "Desc" : ""
+    },
+    "TownHall" : {
+        "Avatar" : "https://c2.staticflickr.com/2/1518/24755699179_ef756f08f8_b.jpg",
+        "Name" : "Town Hall",
+        "Info" : "This is the Town Hall. The current mayor can start votes and make disisions here",
+        "Desc" : "From the outside the building is very large and looks sturdy, able to hold all the villagers incase of a garrison."
+    },
+    "MarketPlace" : {
+        "Avatar" : "https://s-media-cache-ak0.pinimg.com/originals/92/62/3f/92623fc8b548d7a0a64e9c2c0251bd64.jpg",
+        "Name" : "Market Place",
+        "Info" : "This is where you go to buy and sell stuff.",
+        "Desc" : "There are a few building with signs above the doors on what they sell.",
+        "Stores" : {
+            "Blacksmith" : {
+                "Avatar" : "https://s-media-cache-ak0.pinimg.com/736x/26/60/4e/26604ec8519f6b7b1f9baef84b537d1d.jpg",
+                "Name" : "Blacksmith",
+                "Info" : "This is where you go to buy and sell basic weapons.",
+                "Desc" : "The sign above this building is a hammer above an anvil. Inside the wall is lined with diffrent swords and shilds and other equipment."               
+            },
+            "apothecary" : {
+                "Avatar" : "https://s-media-cache-ak0.pinimg.com/736x/80/47/f0/8047f0869f4b3bd09a81d0faa149a25f.jpg",
+                "Name" : "apothecary",
+                "Info" : "This is where you go to buy and sell Potions and ingredients.",
+                "Desc" : "The sign above this building is a potion. Inside there are couldrens bubboling a boiling there is an old woman sturing."                              
+            },
+            "Arcana" : {
+                "Avatar" : "http://cgimg.s3.amazonaws.com/t/g56/195756/1223452_large.jpg",
+                "Name" : "Arcana Goods",
+                "Info" : "This is where you go to buy and sell Arcane items.",
+                "Desc" : "The sign above this building is a mage staff. Inside there are rows of books and trinkets used for spells."                               
+            },
+            "GenerelGoods" : {
+                "Avatar" : "http://orig03.deviantart.net/8bc3/f/2010/315/e/1/vindictus_general_store_by_xngel-d32m1bx.jpg",
+                "Name" : "General Goods",
+                "Info" : "This is where you go to buy and sell normal items.",
+                "Desc" : "The sign above this building is a Sack. Inside there are lodes of random items."                               
+            }
+
+        }
+    },
+    "Tavern" : {
+        "Avatar" : "http://orig05.deviantart.net/2073/f/2012/161/9/e/fantasy_tavern_interior_by_whatyoumaydo-d5313im.jpg",
+        "Name" : "Generic Tavern",
+        "Info" : "This is where you go to buy food and drink till you drop but dont worry there are beds too incase you want to sleep.",
+        "Desc" : "As you approch the building all you hear is loud chatter and the chering sound of music and people dancing. the smell of alcohol hangs in the air surrounding it."
+    },
+    "Gate" : {
+        "Avatar" : "https://s-media-cache-ak0.pinimg.com/originals/cf/48/25/cf4825f7e3b091f8c91161944fa510b3.jpg",
+        "Name" : "Gate",
+        "Info" : "Go here to enter to exit the town.",
+        "Desc" : "The Gate towers over you at least four men at the foot of the gate and several on top."
+    },
+    "Fountain" : {
+        "Avatar" : "https://s-media-cache-ak0.pinimg.com/originals/e6/71/ee/e671ee4fbb7ad2339be802d54585df8a.jpg",
+        "Name" : "Fountain",
+        "Info" : "Has a Dirtied out plaque underneath it, barely readable. Still covered in Algae.",
+        "Desc" : "There are buildings in a circle all arround the fountain. You see the glittering coins at the bottom of the fountain"
+    },
+    "Timms" : {
+        "Avatar" : "https://s-media-cache-ak0.pinimg.com/originals/25/c8/a6/25c8a6e285695aeb2ba08c4ad91edf39.jpg",
+        "Name" : "T.I.M.S",
+        "Info" : "Sell all items here but you wont get as much as you might like - Timm Focuses on improving the town. Any purchase or sale here aids the town's reconstruction efforts!",
+        "Desc" : "There are many people rushing about the large building very plain looking with large amounts of items just stock piled ready to be sold to the traders"
+    }
+}

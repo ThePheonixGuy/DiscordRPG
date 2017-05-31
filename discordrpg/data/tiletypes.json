@@ -1,62 +1,8 @@
 {
-    "Grassland" : {
-        "MovementMod" : 1,
-        "SpawnRate" : 1,
-        "NPC_Difficulty" : 1,
-        "NPC_Type" : ["Normal"]
-    },
-    "Wetland" : {
-        "MovementMod" : 4,
-        "SpawnRate" : 2,
-        "NPC_Difficulty" : 2,
-        "NPC_Type" : ["Water","Nature","Normal"]
-    },
-    "Volcano" : {
-        "MovementMod" : 3,
-        "SpawnRate" : 3,
-        "NPC_Difficulty" : 4,
-        "NPC_Type" : ["Fire","Ground"]
-    },
-    "Dessert" : {
-        "MovementMod" : 4,
-        "SpawnRate" : 3,
-        "NPC_Difficulty" : 2,
-        "NPC_Type" : ["Poison","Normal","Ground"]
-    },
-    "Ice" : {
-        "MovementMod" : 3,
-        "SpawnRate" : 4,
-        "NPC_Difficulty" : 4,
-        "NPC_Type" : ["Ice","Normal","lightning"]
-    },
-    "River" : {
-        "MovementMod" : 6,
-        "SpawnRate" : 5,
-        "NPC_Difficulty" : 1,
-        "NPC_Type" : ["Water"]
-    },
-    "Forest" : {
-        "MovementMod" : 2,
-        "SpawnRate" : 5,
-        "NPC_Difficulty" : 1,
-        "NPC_Type" : ["Normal","Nature"]
-    },  
-    "Tundra" : {
-        "MovementMod" : 2,
-        "SpawnRate" : 3,
-        "NPC_Difficulty" : 3,
-        "NPC_Type" : ["Ground","Ice"]
-    },  
-    "Corrupt" : {
-        "MovementMod" : 2,
-        "SpawnRate" : 5,
-        "NPC_Difficulty" : 3,
-        "NPC_Type" : ["Normal","Fire"]
-    },  
-    "Town" : {
-        "MovementMod" : 0,
-        "SpawnRate" : 0,
-        "NPC_Difficulty" : 100,
-        "NPC_Type" : ["Human"]
-    }
+    "01" : ["Grassland", "Stone", "Forest", "Cave"],
+    "02" : ["Wetland", "River"],
+    "03" : ["Dessert", "Ice"],
+    "04" : ["Tundra"],
+    "05" : ["Volcano", "Corrupt"],
+    "06" : ["Old_Town"]
 }
